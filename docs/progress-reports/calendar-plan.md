@@ -6,7 +6,7 @@ title: HW2 – Grading Rubric (Team Project)
 ---
 
 # Feature 1 - Login Authentication
-## Date: 09/22 - 09/26
+## Deadline - 09/26 (lenght can be extend to 2 weeks)
 ---
 **Requirements 1**
   - Create simple login page
@@ -21,7 +21,7 @@ title: HW2 – Grading Rubric (Team Project)
   - Add testing for login (ViewModel)
 ---
 # Feature 2 - UI/UX Design
-## Plan:  09/22 - 09/26
+## Deadline - 09/22 - 09/26
 
 ---
 
@@ -33,7 +33,7 @@ Requirements 2
 
 ---
 # Feature 3 - Rating/Scoring (Detail page)
-## Plan:  09/29 - 10/03
+## Deadline - 09/29 - 10/03
 
 **Requirement 1**
   - Design UI for the Detail page
@@ -49,7 +49,7 @@ Requirements 2
 
 ---
 # Feature 4 - Comments
-## Plan:  09/29 - 10/03
+## Deadline - 10/03
 ---
 **Requirement 1** 
   - Design UI
@@ -64,14 +64,14 @@ Requirements 2
 
 ---
 # Feature 5 - Lists (HomeScreen)
-## Plan:  10/06 - 10/10
+## Deadline -  10/10
 ---
 **Requirement 1** 
 - Improve UI design of Lists
 
 ---
 # Feature 6 - Recommendataion
-## Plan:  10/06 - 10/10
+## Deadline -  10/10
 ---
 **Requirement 1** 
 - Call the list of recommendation for Recommendation Page
@@ -82,7 +82,7 @@ Requirements 2
 
 ---
 # Feature 7 - Profile Page
-## Plan:  10/13 - 10/17
+## Deadline -  10/17
 ---
 **Requirement 1**
 - Create Basic UI 
@@ -93,7 +93,7 @@ Requirements 2
 ---
 
 # Feature 8 - Sorting Filtering
-## Plan:  10/13 - 10/17
+## Deadline -  10/17
 ---
 **Requirement 1** 
 - Follow UI
