@@ -5,8 +5,25 @@ paginate: true
 title: HW2 – Grading Rubric (Team Project)
 ---
 
+# Team Members & Schedules
+
+---
+
+| Member | Availability / Preferred Days | Notes |
+|--------|------------------------------|-------|
+| Blair  | Mon, Wed, Fri 12-6 PM         | Flexible if notified/Can do in-person |
+| Camden    | Fri 3-5PM            | Flexible if notified/Can do in-person |
+| Aj  | Fri 3-5PM     | Flexible if notified/Can do in-person |
+| Parker  | Fri 3-5PM      | Flexible if notified/Can do in-person |
+| Preston  | Fri 3-5PM      | Flexible if notified/Can do in-person |
+
+---
+
+# Team Deadline and Milestones
+---
+
 # Feature 1 - Login Authentication
-## Deadline - 09/26 (lenght can be extend to 2 weeks)
+## Deadline - 09/26 (length can be extend to 2 weeks)
 ---
 **Requirements 1**
   - Create simple login page
@@ -21,7 +38,7 @@ title: HW2 – Grading Rubric (Team Project)
   - Add testing for login (ViewModel)
 ---
 # Feature 2 - UI/UX Design
-## Deadline - 09/22 - 09/26
+## Deadline - 09/26
 
 ---
 
@@ -33,7 +50,7 @@ Requirements 2
 
 ---
 # Feature 3 - Rating/Scoring (Detail page)
-## Deadline - 09/29 - 10/03
+## Deadline - 10/03
 
 **Requirement 1**
   - Design UI for the Detail page
@@ -64,14 +81,14 @@ Requirements 2
 
 ---
 # Feature 5 - Lists (HomeScreen)
-## Deadline -  10/10
+## Deadline -  10/17
 ---
 **Requirement 1** 
 - Improve UI design of Lists
 
 ---
 # Feature 6 - Recommendataion
-## Deadline -  10/10
+## Deadline -  10/17
 ---
 **Requirement 1** 
 - Call the list of recommendation for Recommendation Page
@@ -82,7 +99,7 @@ Requirements 2
 
 ---
 # Feature 7 - Profile Page
-## Deadline -  10/17
+## Deadline -  10/24
 ---
 **Requirement 1**
 - Create Basic UI 
@@ -93,7 +110,7 @@ Requirements 2
 ---
 
 # Feature 8 - Sorting Filtering
-## Deadline -  10/17
+## Deadline -  10/24
 ---
 **Requirement 1** 
 - Follow UI
