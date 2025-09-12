@@ -46,7 +46,7 @@ title: HW2 – Grading Rubric (Team Project)
   - Create design for pages (E.g figma)
   
 Requirements 2
-  - Create a mockup design of the login page and home screen page
+  - Create flutter implementation design of the login page and home screen page
 
 ---
 # Feature 3 - Rating/Scoring (Detail page)
@@ -93,6 +93,9 @@ Requirements 2
 **Requirement 1** 
 - Call the list of recommendation for Recommendation Page
 
+**Requirement 2** 
+- Design UI
+
 **Requirement 2**
 - Add testing(ViewModel)
 ---
@@ -105,6 +108,12 @@ Requirements 2
 - Create Basic UI 
 
 **Requirement 2**
+- Add log out button
+
+**Requirement 1**
+- Add watchlist/favorite page that calls the API
+
+**Requirement 2**
   - Add testing(ViewModel)
 
 ---
@@ -114,6 +123,9 @@ Requirements 2
 ---
 **Requirement 1** 
 - Follow UI
+
+**Requirement 2** 
+- Sort the list of movies
 
 **Requirement 2**
   - Add testing(ViewModel)
