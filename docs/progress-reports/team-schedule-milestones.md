@@ -61,7 +61,10 @@ Requirements 2
 **Requirement 3** 
   - Able to rate and stars with a button
 
-**Requirement 4**
+**Requirement 4** 
+  - Able to add new movie in watchlist
+
+**Requirement 5**
   - Add testing(ViewModel)
 
 ---
