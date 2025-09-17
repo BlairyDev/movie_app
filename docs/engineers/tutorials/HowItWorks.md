@@ -182,8 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
 5. My recommendation when naming function is load -> get -> fetch
 
-    View      ViewModel     Repository  Api/Data
-             loadMovies()   getMovies()  fetchMovies()
+| View | ViewModel     | Repository   | API / Data   |
+|------|---------------|--------------|--------------|
+|      | loadMovies()  | getMovies()  | fetchMovies()|
+
+
 
 
 6. To use a mock data if for example API is not working then we can use `repositories/tmdb_repository_fake.dart` to use it go to `di/locator.dart`
