@@ -54,14 +54,25 @@ abstract class TmdbRepository {
         throw Exception(e);
         }
     }
-    // tmdb_repository_fake.dart should be fine to put empty just add the function for 
-    //reference check out tmdb_repository_fake.dart
+  
+```
+
+```dart
+    //tmdb_repository_fake.dart
+
+    @override
+    Future<List<Movie>> getRecommendation(String movieId) {
+        throw UnimplementedError(); // add this to make the app work without implementation
+    }
+  
 ```
 
 1. Now go to `view_models` folder and create a new file called recommendation_view_model.dart
 2. Now create this in your new file:
    ```dart
     class RecommendationViewModel extends ChangeNotifier{
+
+        //Add this and the constructor to be used for main.dart later
         final TmdbRepository repository;
 
         RecommendationViewModel({
