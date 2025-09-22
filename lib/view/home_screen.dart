@@ -33,6 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
         title: searchBar,
         actions: <Widget>[
           IconButton(
+            icon: const Icon(Icons.account_circle),
+            tooltip: 'Profile',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+              );
+            },
+          ),
+          IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
               setState(() {
