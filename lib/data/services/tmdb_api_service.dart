@@ -45,3 +45,39 @@ class TmdbApiService {
   }
   
 }
+
+class TmdbAuthService {
+  final String? accessToken = dotenv.env['API_KEY'];
+  final String urlBase = 'https://api.themoviedb.org/3';
+
+  Future<String> fetchRequestToken() async {
+    final response = await http.get(
+      Uri.parse('$urlBase/authentication/token/new?$accessToken'),
+    );
+    final data = json.decode(response.body);
+    return data ['request_token'];
+  }
+  Future<bool> validateLogin(String username, String password, String requestToken) async {
+    final response = await http.post(
+      Uri.parse('$urlBase/authentication/token/validate_with_login?$accessToken'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'username': username,
+        'password': password,
+        'request_token': requestToken,
+      }),
+    );
+    final data = json.decode(response.body);
+    return data['success'] == true;
+  }
+
+  Future<String> createSession(String validatedRequestToken) async {
+    final response = await http.post(
+      Uri.parse('$urlBase/authentication/session/new?$accessToken'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'request_token': validatedRequestToken}),
+    );
+    final data = json.decode(response.body);
+    return data['session_id'];
+  }
+}
