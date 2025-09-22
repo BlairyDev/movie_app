@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/models/movie.dart';
 import 'package:movie_app/view/movie_detail_screen.dart';
+import 'package:movie_app/view/profile_screen.dart';
 import 'package:movie_app/view_models/home_view_model.dart';
 import 'package:provider/provider.dart';
 
