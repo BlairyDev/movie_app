@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/models/movie.dart';
 import 'package:movie_app/view/movie_detail_screen.dart';
+import 'package:movie_app/view/profile_screen.dart';
 import 'package:movie_app/view_models/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: searchBar,
         actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            tooltip: 'Profile',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+              );
+            },
+          ),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
