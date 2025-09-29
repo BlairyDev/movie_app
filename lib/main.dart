@@ -4,6 +4,7 @@ import 'package:movie_app/di/locator.dart';
 import 'package:movie_app/view/home_screen.dart';
 import 'package:movie_app/view/profile_screen.dart';
 import 'package:movie_app/view_models/home_view_model.dart';
+import 'package:movie_app/view_models/login_view_model.dart';
 import 'package:movie_app/view_models/profile_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,6 +17,8 @@ Future main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => LoginViewModel(repository: locator<TmdbRepository>())
+        ),
         ChangeNotifierProvider(
           create: (_) => HomeViewModel(repository: locator<TmdbRepository>()),
         ),
