@@ -23,84 +23,91 @@ title: HW2 – Grading Rubric (Team Project)
 ---
 
 # Feature 1 - Login Authentication
-## Deadline - 09/26 (length can be extend to 2 weeks)
+## Milestones - 09/26
 ---
 **Requirements 1**
-  - Create simple login page
+  - The system must allow login via email/password.
 
 **Requirement 2**
-  - Create a deeplink that redirects to the tmdb website sign up page
+  - The system must force user to register with TMDB
   
 **Requirement 3**
-  - Send email and password to API and then response store session token
+  - The system must provide “forgot password” functionality. (Redirect to TMDB)
   
-**Requirement 4**
-  - Add testing for login (ViewModel)
 ---
-# Feature 2 - UI/UX Design
-## Deadline - 09/26
+# Feature 2 - Detail Pages
+## Milestones - 09/26
 
 ---
 
 **Requirements 1**
-  - Create design for pages (E.g figma)
+  - Detail pages must display title, release date, synopsis.
   
 Requirements 2
-  - Create flutter implementation design of the login page and home screen page
-
+  - Pages must show cast, crew, and production details.
+  
+Requirements 3
+  - Similar/related movies must be listed.
+Requirements 4
+  - Must be able to add movie to list
 ---
-# Feature 3 - Rating/Scoring (Detail page)
+# Feature 3 - Rating
 ## Deadline - 10/03
 
 **Requirement 1**
-  - Design UI for the Detail page
+  - Users must be able to rate movies on a 1–10 scale.
 
 **Requirement 2** 
-  - Call API to get list of comments of a specific movie
+  - Ratings must be editable or removable by the user.
 
 **Requirement 3** 
-  - Able to rate and stars with a button
+  - User ratings must be aggregated into an average score.
 
-**Requirement 4** 
-  - Able to add new movie in watchlist
-
-**Requirement 5**
-  - Add testing(ViewModel)
 
 ---
-# Feature 4 - Comments
+# Feature 4 - Reviews
 ## Deadline - 10/03
 ---
 **Requirement 1** 
-  - Design UI
+  - Users must be able to read reviews.
 
 **Requirement 2**
-  - Able to add comments in a series
-  - Call API to get list of comments of a specific movie
+  - Reviews must display username, timestamp, and rating (if provided).
 
 **Requirement 3**
-  - Add testing for login (ViewModel)
+  - Reviews must be sortable (newest, highest rated).
 
 
 ---
-# Feature 5 - Lists (HomeScreen)
+# Feature 5 - Watchlist
 ## Deadline -  10/17
 ---
 **Requirement 1** 
-- Improve UI design of Lists
+- Users must be able to add/remove movies to their watchlist.
+
+**Requirement 2** 
+- Users must be able to mark movies as favorites.
+
+**Requirement 3** 
+- Lists must display in chronological order (added date).
+
+**Requirement 4** 
+- Lists must be editable (remove items, reorder).
 
 ---
 # Feature 6 - Recommendataion
 ## Deadline -  10/17
 ---
 **Requirement 1** 
-- Call the list of recommendation for Recommendation Page
+- The system must generate recommendations based on user ratings and watchlist.
 
 **Requirement 2** 
 - Design UI
 
 **Requirement 2**
-- Add testing(ViewModel)
+- Recommendations must update after list changes.
+**Requirement 3**
+- Recommendations must display at least 10 suggested movies/TV shows.
 ---
 
 ---
@@ -108,16 +115,16 @@ Requirements 2
 ## Deadline -  10/24
 ---
 **Requirement 1**
-- Create Basic UI 
+- Users must be able to create and edit a profile
 
 **Requirement 2**
-- Add log out button
+- Profiles must display a watchlist, favorites, and reviews.
 
-**Requirement 1**
-- Add watchlist/favorite page that calls the API
+**Requirement 3**
+- Allow users to change settings (light/dark mode)
 
-**Requirement 2**
-  - Add testing(ViewModel)
+**Requirement 4**
+  - Users must be able to log out from all devices
 
 ---
 
@@ -125,13 +132,20 @@ Requirements 2
 ## Deadline -  10/24
 ---
 **Requirement 1** 
-- Follow UI
+- Users must be able to search movies/TV shows by title, keyword, or cast.
 
 **Requirement 2** 
-- Sort the list of movies
+- Filters must support genre, year, rating, and country.
 
-**Requirement 2**
-  - Add testing(ViewModel)
+**Requirement 3**
+  - Search results must update dynamically as the user types.
+
+
+**Requirement 4**
+  - Users must be able to clear filters and reset to default view.
+
+**Requirement 5**
+  - Get recommendations while searching
 
 ---
 

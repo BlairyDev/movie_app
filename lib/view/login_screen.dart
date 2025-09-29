@@ -13,6 +13,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TmdbAuthService authService = TmdbAuthService();
 
+  
+
   void login() async {
     final requestToken = await authService.fetchRequestToken();
     final valid = await authService.validateLogin(
