@@ -54,12 +54,10 @@ Requirements completed 4/7
 Remaining LoC: 325.5 - 186 = 202.69 LoC
 
 ---
-
+# Burndown rate
 ## Progress 
 - Progress: 186/325.5 * 100 = 57.30%(approx)
 - Remaining: 42.7(approx)
-
-## Burndown rate
 186/7 = 26.57 LoC/Day
 
 ---
