@@ -1,4 +1,6 @@
 import 'package:movie_app/data/models/movie.dart';
+import 'package:movie_app/data/models/review_response.dart';
+import 'package:movie_app/data/models/review.dart';
 import 'package:movie_app/data/repositories/tmdb_repository.dart';
 
 
@@ -44,7 +46,61 @@ List<Movie> fakeMovies = [
       posterPath: "assets/images/comedy_nights.jpg",
     ),
 ];
-
+ReviewResponse fakeReviews= ReviewResponse(
+  page: 1,
+  totalPages: 2,
+  totalResults: 4,
+  results: [
+    Review(
+      author: 'john_doe',
+      authorName: 'John Doe',
+      authorUsername: 'johnd123',
+      authorAvatarPath: '/avatar1.jpg',
+      rating: 8.5,
+      content: 'Amazing movie! Highly recommended for all sci-fi fans.',
+      createdAt: '2025-09-27T12:34:56.000Z',
+      updatedAt: '2025-09-27T13:00:00.000Z',
+      url: 'https://www.themoviedb.org/review/1',
+      reviewID: '1',
+    ),
+    Review(
+      author: 'jane_smith',
+      authorName: 'Jane Smith',
+      authorUsername: 'janes456',
+      authorAvatarPath: '/avatar2.jpg',
+      rating: 7.0,
+      content: 'Good story but pacing felt a bit slow at times.',
+      createdAt: '2025-09-26T15:20:00.000Z',
+      updatedAt: '2025-09-26T15:45:00.000Z',
+      url: 'https://www.themoviedb.org/review/2',
+      reviewID: '2',
+    ),
+    Review(
+      author: 'movie_buff99',
+      authorName: 'Movie Buff',
+      authorUsername: 'buff99',
+      authorAvatarPath: '/avatar3.jpg',
+      rating: 9.0,
+      content: 'One of the best films I\'ve seen this year!',
+      createdAt: '2025-09-25T09:10:00.000Z',
+      updatedAt: '2025-09-25T09:50:00.000Z',
+      url: 'https://www.themoviedb.org/review/3',
+      reviewID: '3',
+    ),
+    Review(
+      author: 'critic_pro',
+      authorName: 'Critic Pro',
+      authorUsername: 'criticPro',
+      authorAvatarPath: '/avatar4.jpg',
+      rating: 6.5,
+      content: 'Interesting concepts but lacks character depth.',
+      createdAt: '2025-09-24T20:00:00.000Z',
+      updatedAt: '2025-09-24T20:30:00.000Z',
+      url: 'https://www.themoviedb.org/review/4',
+      reviewID: '4',
+    ),
+  ],
+);
 class TmdbRepositoryFake implements TmdbRepository {
   @override
   Future<List<Movie>> getUpcomingMovies() async {
@@ -57,6 +113,12 @@ class TmdbRepositoryFake implements TmdbRepository {
   Future<List<Movie>> getSearchMovies(String title) async {
     await Future.delayed(Duration(seconds: 4));
     return fakeMovies;
+  }
+
+  @override
+  Future<ReviewResponse> getMovieReviews(int movieId, {int page=1}) async {
+    await Future.delayed(Duration(seconds: 4));
+    return fakeReviews;
   }
 
 }

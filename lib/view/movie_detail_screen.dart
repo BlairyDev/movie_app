@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../view/review_screen.dart';
 import '../data/models/movie.dart';
 
 class MovieDetailScreen extends StatelessWidget {
@@ -31,7 +31,20 @@ class MovieDetailScreen extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: Text(movie.overview),
-              )
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ReviewScreen(movie: movie),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.comment),
+                label: const Text('See Reviews'),
+              ),
             ],
           ),
         ),

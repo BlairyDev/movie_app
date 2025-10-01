@@ -1,4 +1,5 @@
 import 'package:movie_app/data/models/movie.dart';
+import 'package:movie_app/data/models/review_response.dart';
 import 'package:movie_app/data/services/tmdb_api_service.dart';
 
 import 'tmdb_repository.dart';
@@ -37,7 +38,17 @@ class TmdbRepositoryReal implements TmdbRepository {
     }
   }
 
+  @override
+  Future<ReviewResponse> getMovieReviews(int movieId, {int page = 1}) async {
+    try {
+      final result = await _service.fetchMovieReviews(movieId, page: page);
 
+      return ReviewResponse.fromJson(result);
+      
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
 
 }
