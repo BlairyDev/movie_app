@@ -13,10 +13,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TmdbAuthService authService = TmdbAuthService();
-  static final Uri _registerUrl = Uri.parse('https://www.themoviedb.org/signup');
-  static final Uri _passwordResetUrl = Uri.parse('https://www.themoviedb.org/reset-password');
-
-  
+  static final Uri _registerUrl =
+      Uri.parse('https://www.themoviedb.org/signup');
+  static final Uri _passwordResetUrl =
+      Uri.parse('https://www.themoviedb.org/reset-password');
 
   void login() async {
     final requestToken = await authService.fetchRequestToken();
@@ -38,21 +38,100 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Movie Database Login')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF6d0108),
+        title: const Text(
+          'Movie Database Login',
+          style: TextStyle(
+              fontFamily: 'Broadway', fontSize: 30, color: Colors.black),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            TextField(controller: usernameController, decoration: const InputDecoration(labelText: 'Username')),
-            TextField(controller: passwordController, decoration: const InputDecoration(labelText: 'Password'), obscureText: true),
-            ElevatedButton(onPressed: login, child: const Text('Sign In')),
+            TextField(
+              controller: usernameController,
+              decoration: const InputDecoration(
+                labelText: 'Username',
+                labelStyle: TextStyle(
+                    fontFamily: 'CenturyGothic',
+                    fontSize: 20,
+                    color: Color(0xFF8B030C)),
+              ),
+            ),
+            TextField(
+              controller: passwordController,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                labelStyle: TextStyle(
+                    fontFamily: 'CenturyGothic',
+                    fontSize: 20,
+                    color: Color(0xFF8B030C)),
+              ),
+              obscureText: true,
+            ),
+            ElevatedButton(
+              onPressed: login,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return Colors.white;
+                    }
+                    return const Color(0xFF8B030C);
+                  },
+                ),
+                foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return const Color(0xFF8B030C);
+                    }
+                    return Colors.black;
+                  },
+                ),
+                side: MaterialStateProperty.resolveWith<BorderSide>(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return const BorderSide(
+                        color: Color(0xFF8B030C),
+                        width: 3.0,
+                      );
+                    }
+                    return BorderSide.none;
+                  },
+                ),
+              ),
+              child: const Text(
+                'Sign In',
+                style: TextStyle(
+                  fontFamily: 'Broadway',
+                  fontSize: 24,
+                ),
+              ),
+            ),
             TextButton(
               onPressed: () => launchUrl(_registerUrl),
-              child:const Text('Need an account? Register'),
+              child: const Text(
+                'Need an account? Register',
+                style: TextStyle(
+                  fontFamily: 'CenturyGothic',
+                  fontSize: 20,
+                  color: Color(0xFF8B030C),
+                ),
+              ),
             ),
             TextButton(
               onPressed: () => launchUrl(_passwordResetUrl),
-              child:const Text('Forgot Password? Reset Password'),
+              child: const Text(
+                'Forgot Password? Reset Password',
+                style: TextStyle(
+                  fontFamily: 'CenturyGothic',
+                  fontSize: 20,
+                  color: Color(0xFF8B030C),
+                ),
+              ),
             ),
           ],
         ),

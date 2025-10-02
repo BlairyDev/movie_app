@@ -13,7 +13,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
 # In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
 # Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# https://developer.apple.com/library/archive/documentaion/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
@@ -30,17 +30,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  
+  carousel_slider: ^5.1.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   http: ^1.5.0
-  provider: ^6.1.5+1
+  provider: ^6.1.5 # Removed +1 from version
   get_it: ^8.2.0
   characters: ^1.4.0
   flutter_dotenv: ^6.0.0
-  mockito: ^5.5.1
-  material_color_utilities: ">=0.11.1 <0.13.0"
   url_launcher: ^6.3.2
 
 dev_dependencies:
@@ -52,7 +51,8 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^6.0.0
+  flutter_lints: ^3.0.0 # Adjusted to a common version for Dart 3 projects
+  mockito: ^5.5.1 # Moved from dependencies
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -81,17 +81,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: CenturyGothic
+      fonts:
+        - asset: fonts/centurygothic.ttf
+        - asset: fonts/centurygothic_bold.ttf
+          weight: 700
+    - family: Broadway
+      fonts:
+        - asset: fonts/BroadwayRegular.ttf
+          weight: 700
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+  # see https://flutter.dev/custom-fonts/#from-packages
