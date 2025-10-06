@@ -44,6 +44,12 @@ class TmdbApiService {
     return runAPI(search);
   }
   
+  Future<Map<String, dynamic>> fetchMovieReviews(int movieId, {int page = 1}) async {
+    final String reviewsAPI =
+        '$urlBase/movie/$movieId/reviews?$apiKey$urlLanguage&page=$page';
+
+    return runAPI(reviewsAPI);
+  }
 }
 
 class TmdbAuthService {
