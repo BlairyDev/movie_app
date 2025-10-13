@@ -43,6 +43,7 @@ dependencies:
   mockito: ^5.5.1
   material_color_utilities: ">=0.11.1 <=0.13.0"
   url_launcher: ^6.3.2
+  build_runner: ^2.9.0
 
 dev_dependencies:
   flutter_test:
@@ -83,15 +84,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: CenturyGothic
-      fonts:
-        - asset: fonts/centurygothic.ttf
-        - asset: fonts/centurygothic_bold.ttf
-          weight: 700
-    - family: Broadway
-      fonts:
-        - asset: fonts/BroadwayRegular.ttf
-          weight: 700
+  #fonts:
+  #  - family: CenturyGothic
+  #    fonts:
+  #      - asset: fonts/centurygothic.ttf
+  #      - asset: fonts/centurygothic_bold.ttf
+  #        weight: 700
+  #  - family: Broadway
+  #    fonts:
+  #      - asset: fonts/BroadwayRegular.ttf
+  #        weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
