@@ -63,16 +63,13 @@ title: HW4 – Team Project Rubric
 ### What Went Wrong (Team Level):
 - Other members needs to wait for others to finish before they can start their tasks
 - Some features took longer than expected to develop(Lack of time)
-- Unclear requirements made it harder to create some features
 
 ---
 
 ### What Went Well (Team Level):
 - Maintaned good collobration and communication with the team
 - Team able to adapt in changes
-- Login feature successfully implemented
-- Reviews feature successfully implemented
-- Home page completed
+
 ---
 
 ### Analysis & Improvement Plan (Team Level):
@@ -139,6 +136,23 @@ Goal: Finish remaining features from Sprint 1, Improve UI, and new features for 
   - Recommendations must display at least 10 suggested movies/TV shows.
 
 ---
+
+
+# Summary
+- Week 1: 
+  Detail Pages, Requirements: 3
+  Profile Page, Requirements: 4
+
+- Week 2:
+  Ratings, Requirements: 3
+  Search/Filter, Requirements: 5
+
+- Week 3:
+  Watchlist, Requirements: 4
+  Week 4, Recommendation: 3
+
+---
+
 # Timeline and Milestone
 
 ---
