@@ -36,14 +36,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   http: ^1.5.0
-  provider: ^6.1.5 # Removed +1 from version
+  provider: ^6.1.5 
   get_it: ^8.2.0
   characters: ^1.4.0
   flutter_dotenv: ^6.0.0
-  mockito: ^5.5.1
-  material_color_utilities: ">=0.11.1 <=0.13.0"
   url_launcher: ^6.3.2
   build_runner: ^2.9.0
+  material_color_utilities: ">=0.11.1 <=0.13.0"
+  mockito: ^5.5.1 # Moved from dev_dependencies, so it should be available for the main app if needed
 
 dev_dependencies:
   flutter_test:
@@ -54,8 +54,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0 # Adjusted to a common version for Dart 3 projects
-  mockito: ^5.5.1 # Moved from dependencies
+  flutter_lints: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -84,15 +83,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  #fonts:
-  #  - family: CenturyGothic
-  #    fonts:
-  #      - asset: fonts/centurygothic.ttf
-  #      - asset: fonts/centurygothic_bold.ttf
-  #        weight: 700
-  #  - family: Broadway
-  #    fonts:
-  #      - asset: fonts/BroadwayRegular.ttf
-  #        weight: 700
+  fonts:
+    - family: CenturyGothic
+      fonts:
+        - asset: fonts/centurygothic.ttf
+        - asset: fonts/centurygothic_bold.ttf
+          weight: 700
+    - family: Broadway
+      fonts:
+        - asset: fonts/BroadwayRegular.ttf
+          weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
