@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/repositories/tmdb_repository.dart';
+import 'package:movie_app/data/services/tmdb_api_service.dart';
 import 'package:movie_app/di/locator.dart';
 import 'package:movie_app/view/home_screen.dart';
 import 'package:movie_app/view/profile_screen.dart';
@@ -23,7 +24,7 @@ Future main() async {
           create: (_) => HomeViewModel(repository: locator<TmdbRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (_) => ProfileViewModel(repository: locator<TmdbRepository>()),
+          create: (_) => ProfileViewModel(apiService: TmdbApiService()),
         ),
       ],
       child: MyApp(),
