@@ -50,6 +50,19 @@ class TmdbApiService {
 
     return runAPI(reviewsAPI);
   }
+  Future<Map<String, dynamic>> getMovieWatchlist(int accountId, String sessionId) async {
+    final String movieWatchlistAPI =
+        '$urlBase/account/$accountId/watchlist/movies?api_key=$apiKey&session_id=$sessionId&language=en-US&sort_by=created_at.asc';
+
+    return runAPI(movieWatchlistAPI);
+  }
+
+  Future<Map<String, dynamic>> getTvWatchlist(int accountId, String sessionId) async {
+    final String tvWatchlistAPI =
+        '$urlBase/account/$accountId/watchlist/tv?api_key=$apiKey&session_id=$sessionId&language=en-US&sort_by=created_at.asc';
+
+    return runAPI(tvWatchlistAPI);
+  }
 }
 
 class TmdbAuthService {
@@ -85,5 +98,11 @@ class TmdbAuthService {
     );
     final data = json.decode(response.body);
     return data['session_id'];
+  }
+  Future<Map<String, dynamic>> fetchAccountDetails(String sessionId) async {
+    final response = await http.get(
+      Uri.parse('$urlBase/account?$accessToken&session_id=$sessionId'),
+    );
+    return json.decode(response.body);
   }
 }
