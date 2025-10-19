@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/services/tmdb_api_service.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../data/models/login.dart'; // SessionManager
+import '../data/models/profile.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -40,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
           sessionManager.sessionId = sessionId;
           sessionManager.accountId = accountId;
 
-          // navigate to home
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -53,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } catch (e) {
-      // Generic error handling
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login failed: $e')),
       );
