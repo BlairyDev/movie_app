@@ -22,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() async {
     try {
       final requestToken = await authService.fetchRequestToken();
-
       final valid = await authService.validateLogin(
         usernameController.text,
         passwordController.text,
@@ -170,3 +169,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
