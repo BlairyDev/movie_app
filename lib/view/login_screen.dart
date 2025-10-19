@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/services/tmdb_api_service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../data/models/login.dart'; // SessionManager
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,20 +20,51 @@ class _LoginScreenState extends State<LoginScreen> {
       Uri.parse('https://www.themoviedb.org/reset-password');
 
   void login() async {
-    final requestToken = await authService.fetchRequestToken();
-    final valid = await authService.validateLogin(
-      usernameController.text,
-      passwordController.text,
-      requestToken,
-    );
+    try {
+      final requestToken = await authService.fetchRequestToken();
 
-    if (valid) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
+      final valid = await authService.validateLogin(
+        usernameController.text,
+        passwordController.text,
+        requestToken,
+      );
+
+      if (valid) {
+        final sessionId = await authService.createSession(requestToken);
+
+        final accountData = await authService.fetchAccountDetails(sessionId);
+        final accountId = accountData['id'] as int?;
+
+        if (sessionId != null && accountId != null) {
+          final sessionManager = SessionManager();
+          sessionManager.sessionId = sessionId;
+          sessionManager.accountId = accountId;
+
+          // navigate to home
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to retrieve account details')),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Incorrect username or password')),
+        );
+      }
+    } catch (e) {
+      // Generic error handling
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Incorrect username or password')),
+        SnackBar(content: Text('Login failed: $e')),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -72,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               obscureText: true,
             ),
+            const SizedBox(height: 12),
             ElevatedButton(
               onPressed: login,
               style: ButtonStyle(
