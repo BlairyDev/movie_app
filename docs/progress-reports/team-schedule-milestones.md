@@ -22,132 +22,110 @@ title: HW2 – Grading Rubric (Team Project)
 # Team Deadline and Milestones
 ---
 
-# Feature 1 - Login Authentication
-## Milestones - 09/26
----
-**Requirements 1**
-  - The system must allow login via email/password.
 
-**Requirement 2**
-  - The system must force user to register with TMDB
-  
-**Requirement 3**
-  - The system must provide “forgot password” functionality. (Redirect to TMDB)
-  
----
-# Feature 2 - Detail Pages
-## Milestones - 09/26
+#  Project Features Timeline
+### Weeks 2–7 Overview
+#### Team: Preston, Cambden, AJ
 
 ---
 
-**Requirements 1**
-  - Detail pages must display title, release date, synopsis.
-  
-Requirements 2
-  - Pages must show cast, crew, and production details.
-  
-Requirements 3
-  - Similar/related movies must be listed.
-Requirements 4
-  - Must be able to add movie to list
----
-# Feature 3 - Rating
-## Deadline - 10/03
+#  Week 2 — Login System
 
-**Requirement 1**
-  - Users must be able to rate movies on a 1–10 scale.
+###  Preston — Login (✅ Completed)
+- The system must allow login via **email/password**.
+- The system must force users to **register with TMDB**.
+- The system must provide **“Forgot Password”** functionality (redirects to TMDB).
 
-**Requirement 2** 
-  - Ratings must be editable or removable by the user.
-
-**Requirement 3** 
-  - User ratings must be aggregated into an average score.
-
-
----
-# Feature 4 - Reviews
-## Deadline - 10/03
----
-**Requirement 1** 
-  - Users must be able to read reviews.
-
-**Requirement 2**
-  - Reviews must display username, timestamp, and rating (if provided).
-
-**Requirement 3**
-  - Reviews must be sortable (newest, highest rated).
-
-
----
-# Feature 5 - Watchlist
-## Deadline -  10/17
----
-**Requirement 1** 
-- Users must be able to add/remove movies to their watchlist.
-
-**Requirement 2** 
-- Users must be able to mark movies as favorites.
-
-**Requirement 3** 
-- Lists must display in chronological order (added date).
-
-**Requirement 4** 
-- Lists must be editable (remove items, reorder).
-
----
-# Feature 6 - Recommendataion
-## Deadline -  10/17
----
-**Requirement 1** 
-- The system must generate recommendations based on user ratings and watchlist.
-
-**Requirement 2** 
-- Design UI
-
-**Requirement 2**
-- Recommendations must update after list changes.
-**Requirement 3**
-- Recommendations must display at least 10 suggested movies/TV shows.
----
-
----
-# Feature 7 - Profile Page
-## Deadline -  10/24
----
-**Requirement 1**
-- Users must be able to create and edit a profile
-
-**Requirement 2**
-- Profiles must display a watchlist, favorites, and reviews.
-
-**Requirement 3**
-- Allow users to change settings (light/dark mode)
-
-**Requirement 4**
-  - Users must be able to log out from all devices
+###  Cambden — Design
+- Design and implement the **login page UI**.
 
 ---
 
-# Feature 8 - Sorting Filtering
-## Deadline -  10/24
----
-**Requirement 1** 
-- Users must be able to search movies/TV shows by title, keyword, or cast.
+#  Week 3 — Detail Pages (Start)
 
-**Requirement 2** 
-- Filters must support genre, year, rating, and country.
+###  Preston — Login (✅ Completed)
+- Login via email/password.
+- TMDB registration required.
+- Forgot password redirect to TMDB.
 
-**Requirement 3**
-  - Search results must update dynamically as the user types.
-
-
-**Requirement 4**
-  - Users must be able to clear filters and reset to default view.
-
-**Requirement 5**
-  - Get recommendations while searching
+###  Cambden — Detail Pages (⏭️ Next Week)
+- Detail pages must display:
+  - **Title, release date, synopsis**
+  - **Cast, crew, and production details**
+  - **Similar/related movies**
+  - Must be able to **add movie to list**
 
 ---
 
+#  Week 4 — Ratings & Reviews
 
-# Remaning weeks will focus on improving the UI
+###  Cambden — Ratings (⚠️ Incomplete)
+- Users can rate movies **1–10**.
+- Ratings must be **editable or removable**.
+- User ratings must be **aggregated** into an average score.
+
+###  AJ — Reviews (✅ Completed)
+- Users can **read reviews**.
+- Reviews show:
+  - Username
+  - Timestamp
+  - Rating (if provided)
+- Reviews are **sortable**:
+  - Newest
+  - Highest rated
+
+---
+
+#  Week 5 — Detail Pages & Profiles
+
+###  Cambden — Detail Pages (Ongoing)
+- Display **title, release date, synopsis**.
+- Show **cast, crew, and production details**.
+- List **similar/related movies**.
+- Allow users to **add movie to list**.
+
+###  Profiles
+- Users can **create and edit profiles**.
+- Profiles display:
+  - **Watchlist**
+  - **Favorites**
+  - **Reviews**
+- Allow users to:
+  - **Change settings** (light/dark mode)
+  - **Log out from all devices**
+
+---
+
+#  Week 6 — Search & Watchlist
+
+###  Search / Filter
+- Search by **title, keyword, or cast**.
+- Filters support:
+  - **Genre**, **year**, **rating**, **country**
+- Results update **dynamically** as user types.
+- Users can **clear filters** and reset view.
+
+###  Watchlist
+- Add/remove movies from **watchlist**.
+- Mark movies as **favorites**.
+- Lists display in **chronological order (added date)**.
+- Lists must be **editable** (remove/reorder).
+
+---
+
+#  Week 7 — Ratings & Recommendations
+
+###  Cambden — Ratings (Final)
+- Rate movies on a **1–10 scale**.
+- Ratings **editable or removable**.
+- Aggregate **average user score**.
+
+###  Recommendations
+- System generates **recommendations** based on:
+  - User **ratings**
+  - User **watchlist**
+- Recommendations **update** after list changes.
+- Must display **at least 10** suggested movies/TV shows.
+- Get recommendations while **searching**.
+
+---
