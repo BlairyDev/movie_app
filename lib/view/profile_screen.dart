@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
 
-    if (viewModel.movieWatchlist.isEmpty) {
+    if (viewModel.watchlistMovies.isEmpty) {
       return const Center(
         child: Text(
           'No movies in your watchlist',
@@ -148,9 +148,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onRefresh: () => viewModel.loadWatchlistMovies(),
       child: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: viewModel.movieWatchlist.length,
+        itemCount: viewModel.watchlistMovies.length,
         itemBuilder: (context, index) {
-          final movie = viewModel.movieWatchlist[index];
+          final movie = viewModel.watchlistMovies[index];
           return _buildMovieCard(movie);
         },
       ),
