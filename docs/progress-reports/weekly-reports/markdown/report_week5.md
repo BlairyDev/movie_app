@@ -26,7 +26,7 @@ Deliver **Reviews**, **Ratings**, **Complete remaining requirements from last we
 
 # Profiles(LoC: 315)
 - Users must be able to create and edit a profile
-- Profiles must display a watchlist, favorites, and reviews.
+- Profiles add buttons display a watchlist, favorites, and reviews.✅
 - Allow users to change settings (light/dark mode)
 - Users must be able to log out from all devices✅
 
@@ -40,7 +40,7 @@ Deliver **Reviews**, **Ratings**, **Complete remaining requirements from last we
 - 5/8 completed requirements
 
 ## Progress 
-- Progress: 5/8 * 100 = 62.5%
+- Progress: 6/8 * 100 = 75%
 Total # LoC: 421
 
 ---
