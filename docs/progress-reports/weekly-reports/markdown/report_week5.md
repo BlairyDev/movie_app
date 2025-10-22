@@ -37,7 +37,7 @@ Deliver **Reviews**, **Ratings**, **Complete remaining requirements from last we
 
 # Burndown rate
 
-- 5/8 completed requirements
+- 6/8 completed requirements
 
 ## Progress 
 - Progress: 6/8 * 100 = 75%
