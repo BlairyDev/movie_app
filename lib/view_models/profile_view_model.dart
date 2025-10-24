@@ -14,27 +14,46 @@ class ProfileViewModel extends ChangeNotifier {
   List<Movie> _watchlistMovies = [];
   List<Movie> get watchlistMovies => _watchlistMovies;
 
-  List<Movie> _watchlistTv = [];
-  List<Movie> get watchlistTv => _watchlistTv;
+  List<dynamic> _watchlistTv = [];
+  List<dynamic> get tvWatchlist => _watchlistTv;
+
+  String? _error;
+  String? get error => _error;
 
   Future<void> loadWatchlistMovies() async {
+    final sessionManager = SessionManager();
+    
+    if (sessionManager.sessionId == null || sessionManager.accountId == null) {
+      _error = 'No active session found';
+      notifyListeners();
+      return;
+    }
+
     _isLoading = true;
+    _error = null;
     notifyListeners();
 
     try {
-      final accountId = SessionManager().accountId;
-      final sessionId = SessionManager().sessionId;
+      final response = await apiService.fetchMovieWatchlist(
+        sessionManager.accountId!,
+        sessionManager.sessionId!,
+      );
 
-      if (accountId != null && sessionId != null) {
-        final response = await apiService.getMovieWatchlist(accountId, sessionId);
-        final results = response['results'] as List<dynamic>;
-        _watchlistMovies = results.map((json) => Movie.fromJson(json)).toList();
+      print('Movie Watchlist Response: $response');
+
+      if (response['results'] != null) {
+        _watchlistMovies = (response['results'] as List)
+            .map((json) => Movie.fromJson(json))
+            .toList();
+        
+        print('Loaded ${_watchlistMovies.length} movies in watchlist');
       } else {
         _watchlistMovies = [];
       }
     } catch (e) {
+      _error = 'Failed to load movie watchlist: $e';
+      print('Error loading movie watchlist: $e');
       _watchlistMovies = [];
-      print('Error fetching movie watchlist: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -42,36 +61,46 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> loadWatchlistTv() async {
+    final sessionManager = SessionManager();
+    
+    if (sessionManager.sessionId == null || sessionManager.accountId == null) {
+      _error = 'No active session found';
+      notifyListeners();
+      return;
+    }
+
     _isLoading = true;
+    _error = null;
     notifyListeners();
 
     try {
-      final accountId = SessionManager().accountId;
-      final sessionId = SessionManager().sessionId;
+      final response = await apiService.fetchTvWatchlist(
+        sessionManager.accountId!,
+        sessionManager.sessionId!,
+      );
 
-      if (accountId != null && sessionId != null) {
-        final response = await apiService.getTvWatchlist(accountId, sessionId);
-        final results = response['results'] as List<dynamic>;
+      print('TV Watchlist Response: $response');
 
-        _watchlistTv = results
-            .map((json) => Movie(
-                  id: json['id'] as int,
-                  title: json['name'] as String? ?? '',
-                  voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-                  releaseDate: json['first_air_date'] as String? ?? '',
-                  overview: json['overview'] as String? ?? '',
-                  posterPath: json['poster_path'] as String? ?? '',
-                ))
-            .toList();
+      if (response['results'] != null) {
+        _watchlistTv = response['results'] as List;
+        print('Loaded ${_watchlistTv.length} TV shows in watchlist');
       } else {
         _watchlistTv = [];
       }
     } catch (e) {
+      _error = 'Failed to load TV watchlist: $e';
+      print('Error loading TV watchlist: $e');
       _watchlistTv = [];
-      print('Error fetching TV watchlist: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void clearWatchlists() {
+    _watchlistMovies = [];
+    _watchlistTv = [];
+    _error = null;
+    notifyListeners();
   }
 }
