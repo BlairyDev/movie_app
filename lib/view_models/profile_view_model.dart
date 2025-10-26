@@ -54,15 +54,17 @@ class ProfileViewModel extends ChangeNotifier {
         final results = response['results'] as List<dynamic>;
 
         _watchlistTv = results
-            .map((json) => Movie(
-                  id: json['id'] as int,
-                  title: json['name'] as String? ?? '',
-                  voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-                  releaseDate: json['first_air_date'] as String? ?? '',
-                  overview: json['overview'] as String? ?? '',
-                  posterPath: json['poster_path'] as String? ?? '',
-                ))
-            .toList();
+          .map((json) => Movie(
+                id: json['id'] as int,
+                title: json['name'] as String? ?? '',
+                voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
+                releaseDate: json['first_air_date'] as String? ?? '',
+                overview: json['overview'] as String? ?? '',
+                posterPath: json['poster_path'] as String? ?? '',
+                genreIds: List<int>.from(json['genre_ids'] ?? []),
+                originalLanguage: json['original_language'] as String? ?? 'en',
+              ))
+          .toList();
       } else {
         _watchlistTv = [];
       }

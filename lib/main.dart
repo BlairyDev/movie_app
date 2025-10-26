@@ -7,6 +7,7 @@ import 'package:movie_app/view/profile_screen.dart';
 import 'package:movie_app/view_models/home_view_model.dart';
 import 'package:movie_app/view_models/login_view_model.dart';
 import 'package:movie_app/view_models/profile_view_model.dart';
+import 'package:movie_app/view_models/filter_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'view/login_screen.dart';
@@ -25,6 +26,9 @@ Future main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => ProfileViewModel(apiService: TmdbApiService()),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FilterViewModel(repository: locator<TmdbRepository>()),
         ),
       ],
       child: MyApp(),
