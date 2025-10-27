@@ -1,54 +1,70 @@
+import 'dart:async';
 import 'package:movie_app/data/models/movie.dart';
-import 'package:movie_app/data/models/review_response.dart';
 import 'package:movie_app/data/models/review.dart';
+import 'package:movie_app/data/models/review_response.dart';
+import 'package:movie_app/data/models/genre.dart';
+import 'package:movie_app/data/models/paged_movies.dart';
+import 'package:movie_app/data/models/language.dart';
 import 'package:movie_app/data/repositories/tmdb_repository.dart';
 
+/// --- Fake static data --- ///
 
-List<Movie> fakeMovies = [
-    Movie(
-      id: 1,
-      title: "The Adventure Begins",
-      voteAverage: 8.2,
-      releaseDate: "2023-05-12",
-      overview: "An epic journey of a young hero discovering his destiny.",
-      posterPath: "assets/images/adventure_begins.jpg",
-    ),
-    Movie(
-      id: 2,
-      title: "Mystery of the Night",
-      voteAverage: 7.5,
-      releaseDate: "2022-10-31",
-      overview: "A thrilling mystery that keeps you on the edge of your seat.",
-      posterPath: "assets/images/mystery_night.jpg",
-    ),
-    Movie(
-      id: 3,
-      title: "Romance in Paris",
-      voteAverage: 6.8,
-      releaseDate: "2021-02-14",
-      overview: "A heartwarming love story set in the streets of Paris.",
-      posterPath: "assets/images/romance_paris.jpg",
-    ),
-    Movie(
-      id: 4,
-      title: "Space Odyssey",
-      voteAverage: 9.1,
-      releaseDate: "2024-07-04",
-      overview: "An interstellar adventure beyond imagination.",
-      posterPath: "assets/images/space_odyssey.jpg",
-    ),
-    Movie(
-      id: 5,
-      title: "Comedy Nights",
-      voteAverage: 7.0,
-      releaseDate: "2020-11-20",
-      overview: "A hilarious series of comedic events and mishaps.",
-      posterPath: "assets/images/comedy_nights.jpg",
-    ),
+final List<Movie> fakeMovies = [
+  Movie(
+    id: 1,
+    title: "The Adventure Begins",
+    voteAverage: 8.2,
+    releaseDate: "2023-05-12",
+    overview: "An epic journey of a young hero discovering his destiny.",
+    posterPath: "assets/images/adventure_begins.jpg",
+    genreIds: [28, 12], // Action, Adventure
+    originalLanguage: 'en',
+  ),
+  Movie(
+    id: 2,
+    title: "Mystery of the Night",
+    voteAverage: 7.5,
+    releaseDate: "2022-10-31",
+    overview: "A thrilling mystery that keeps you on the edge of your seat.",
+    posterPath: "assets/images/mystery_night.jpg",
+    genreIds: [9648, 53], // Mystery, Thriller
+    originalLanguage: 'en',
+  ),
+  Movie(
+    id: 3,
+    title: "Romance in Paris",
+    voteAverage: 6.8,
+    releaseDate: "2021-02-14",
+    overview: "A heartwarming love story set in the streets of Paris.",
+    posterPath: "assets/images/romance_paris.jpg",
+    genreIds: [10749, 18], // Romance, Drama
+    originalLanguage: 'fr',
+  ),
+  Movie(
+    id: 4,
+    title: "Space Odyssey",
+    voteAverage: 9.1,
+    releaseDate: "2024-07-04",
+    overview: "An interstellar adventure beyond imagination.",
+    posterPath: "assets/images/space_odyssey.jpg",
+    genreIds: [878, 12], // Science Fiction, Adventure
+    originalLanguage: 'en',
+  ),
+  Movie(
+    id: 5,
+    title: "Comedy Nights",
+    voteAverage: 7.0,
+    releaseDate: "2020-11-20",
+    overview: "A hilarious series of comedic events and mishaps.",
+    posterPath: "assets/images/comedy_nights.jpg",
+    genreIds: [35], // Comedy
+    originalLanguage: 'en',
+  ),
 ];
-ReviewResponse fakeReviews= ReviewResponse(
+
+final ReviewResponse fakeReviews = ReviewResponse(
   page: 1,
-  totalPages: 2,
+  totalPages: 1,
   totalResults: 4,
   results: [
     Review(
@@ -101,24 +117,106 @@ ReviewResponse fakeReviews= ReviewResponse(
     ),
   ],
 );
+
+final List<Genre> fakeGenres = [
+  Genre(id: 28, name: 'Action'),
+  Genre(id: 12, name: 'Adventure'),
+  Genre(id: 35, name: 'Comedy'),
+  Genre(id: 18, name: 'Drama'),
+  Genre(id: 878, name: 'Science Fiction'),
+  Genre(id: 10749, name: 'Romance'),
+];
+
+final List<Language> fakeLanguages = [
+  Language(isoCode: 'en', englishName: 'English'),
+  Language(isoCode: 'fr', englishName: 'French'),
+  Language(isoCode: 'es', englishName: 'Spanish'),
+  Language(isoCode: 'ja', englishName: 'Japanese'),
+  Language(isoCode: 'de', englishName: 'German'),
+];
+
+/// --- Fake Repository Implementation --- ///
+
 class TmdbRepositoryFake implements TmdbRepository {
   @override
   Future<List<Movie>> getUpcomingMovies() async {
-
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(const Duration(milliseconds: 300));
     return fakeMovies;
   }
 
   @override
   Future<List<Movie>> getSearchMovies(String title) async {
-    await Future.delayed(Duration(seconds: 4));
-    return fakeMovies;
+    await Future.delayed(const Duration(milliseconds: 300));
+    return fakeMovies
+        .where((m) => m.title.toLowerCase().contains(title.toLowerCase()))
+        .toList();
   }
 
   @override
-  Future<ReviewResponse> getMovieReviews(int movieId, {int page=1}) async {
-    await Future.delayed(Duration(seconds: 4));
+  Future<ReviewResponse> getMovieReviews(int movieId, {int page = 1}) async {
+    await Future.delayed(const Duration(milliseconds: 300));
     return fakeReviews;
   }
 
+  @override
+  Future<List<Movie>> getFilteredMovies({
+    String? title,
+    String? genre,
+    String? language,
+    double? minRating,
+    int? year,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    return fakeMovies.where((m) {
+      final genreMatch = genre == null ||
+          genre.isEmpty ||
+          fakeGenres.any((g) => g.name == genre);
+      final langMatch = language == null ||
+          language.isEmpty ||
+          fakeLanguages.any((l) => l.isoCode == language);
+      final ratingMatch = minRating == null || m.voteAverage >= minRating;
+      final yearMatch =
+          year == null || m.releaseDate.startsWith(year.toString());
+      return genreMatch && langMatch && ratingMatch && yearMatch;
+    }).toList();
+  }
+
+  @override
+  Future<PagedMovies> getPagedFilteredMovies({
+    required int page,
+    String? title,
+    Map<String, dynamic>? filters,
+    bool isUpcoming = false,
+  }) async {
+    final filtered = await getFilteredMovies(
+      title: title,
+      genre: filters?['genre'],
+      language: filters?['language'],
+      minRating: filters?['minRating'],
+      year: filters?['year'],
+    );
+
+    // simulate basic pagination (e.g., 10 movies per page)
+    const pageSize = 10;
+    final startIndex = (page - 1) * pageSize;
+    final endIndex = startIndex + pageSize;
+    final pagedMovies = filtered.sublist(
+      startIndex < filtered.length ? startIndex : filtered.length,
+      endIndex < filtered.length ? endIndex : filtered.length,
+    );
+
+    final totalPages = (filtered.length / pageSize).ceil().clamp(1, double.infinity).toInt();
+
+    return PagedMovies(
+      movies: pagedMovies,
+      totalPages: totalPages,
+    );
+  }
+
+  @override
+  Future<List<Genre>> getGenres() async => fakeGenres;
+
+  @override
+  Future<List<Language>> getLanguages() async => fakeLanguages;
 }

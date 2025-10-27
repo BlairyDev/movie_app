@@ -5,6 +5,8 @@ class Movie {
   late String releaseDate;
   late String overview;
   late String posterPath;
+  late List<int> genreIds; // TMDb genre IDs
+  late String originalLanguage; // ISO language code
 
   Movie({
     required this.id,
@@ -13,14 +15,21 @@ class Movie {
     required this.releaseDate,
     required this.overview,
     required this.posterPath,
+    required this.genreIds,
+    required this.originalLanguage,
   });
 
   Movie.fromJson(Map<String, dynamic> parsedJson) {
-    this.id = parsedJson['id'] as int;
-    this.title = parsedJson['title'] as String? ?? '';
-    this.voteAverage = (parsedJson['vote_average'] as double?) ?? 0.0;
-    this.releaseDate = parsedJson['release_date'] as String? ?? '';
-    this.overview = parsedJson['overview'] as String? ?? '';
-    this.posterPath = parsedJson['poster_path'] as String? ?? '';
+    id = parsedJson['id'] as int;
+    title = parsedJson['title'] as String? ?? '';
+    voteAverage = (parsedJson['vote_average'] as num?)?.toDouble() ?? 0.0;
+    releaseDate = parsedJson['release_date'] as String? ?? '';
+    overview = parsedJson['overview'] as String? ?? '';
+    posterPath = parsedJson['poster_path'] as String? ?? '';
+    genreIds = (parsedJson['genre_ids'] as List<dynamic>?)
+            ?.map((e) => e as int)
+            .toList() ??
+        [];
+    originalLanguage = parsedJson['original_language'] as String? ?? '';
   }
 }

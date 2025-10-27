@@ -17,7 +17,7 @@ class TmdbApiService {
     if (result.statusCode == HttpStatus.ok) {
       final jsonResponse = json.decode(result.body);
 
-      print('Request failed with status: ${result.statusCode}.');
+      print('Request succceded with status: ${result.statusCode}.');
       print('Response body: ${result.body}');
       print('API URL: $API');
       
@@ -61,11 +61,16 @@ class TmdbApiService {
     return runAPI(upcomingAPI);
   }
 
-  Future<Map<String, dynamic>> fetchSearchMovies(String title) async {
-    final String search =
-        urlBase + apiSearch + 'query=' + title + '&' + apiKey!;
-  
-    return runAPI(search);
+  Future<Map<String, dynamic>> fetchSearchMovies(String title, {int page = 1}) async {
+    final tempApiKey = apiKey;
+    final transformedApiKey = tempApiKey!.split('=').last;
+    final uri = Uri.parse('$urlBase/search/movie').replace(queryParameters: {
+      'api_key': transformedApiKey,
+      'language': 'en-US',
+      'query': title,
+      'page': page.toString(),
+    });
+    return runAPI(uri.toString());
   }
   
   Future<Map<String, dynamic>> fetchMovieReviews(int movieId, {int page = 1}) async {
@@ -87,6 +92,51 @@ class TmdbApiService {
         '$urlBase/account/$accountId/watchlist/tv?session_id=$sessionId&language=en-US&page=$page&sort_by=created_at.desc';
 
     return runAuthAPI(watchlistAPI, sessionId: sessionId);
+  }
+
+  Future<Map<String, dynamic>> fetchGenres() async {
+    final String api = '$urlBase/genre/movie/list?$apiKey&language=en-US';
+    return runAPI(api);
+  }
+
+  Future<Map<String, dynamic>> fetchLanguages() async {
+    final String api = '$urlBase/configuration/languages?$apiKey';
+    final response = await http.get(Uri.parse(api));
+    if (response.statusCode == 200) {
+      final list = json.decode(response.body);
+      return {'languages': list};
+    } else {
+      throw Exception('Failed to fetch languages');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchPagedMovies(String endpoint, Map<String, String> queryParams) async {
+    final tempApiKey = apiKey;
+    final transformedApiKey = tempApiKey!.split('=').last;
+    
+    final defaultParams = {
+      'api_key': transformedApiKey,
+      'language': 'en-US',
+    };
+    
+    final uri = Uri.parse('$urlBase/$endpoint').replace(queryParameters: {
+      ...defaultParams,
+      ...queryParams,
+    });
+
+    return runAPI(uri.toString());
+  }
+
+
+  Future<Map<String, dynamic>> discoverMovies(Map<String, String> queryParams) async {
+    final tempApiKey = apiKey;
+    final transformedApiKey = tempApiKey!.split('=').last;
+    final uri = Uri.parse('$urlBase/discover/movie').replace(queryParameters: {
+      'api_key': transformedApiKey,
+      'language': 'en-US',
+      ...queryParams,
+    });
+    return runAPI(uri.toString());
   }
 }
 
