@@ -82,14 +82,14 @@ class TmdbApiService {
 
   Future<Map<String, dynamic>> fetchMovieWatchlist(int accountId, String sessionId, {int page = 1}) async {
     final String watchlistAPI =
-        '$urlBase/account/$accountId/watchlist/movies?session_id=$sessionId&language=en-US&page=$page&sort_by=created_at.desc';
+        '$urlBase/account/$accountId/watchlist/movies?session_id=$sessionId&language=en-US&page=$page&sort_by=created_at.desc&$apiKey';
 
     return runAuthAPI(watchlistAPI, sessionId: sessionId);
   }
 
   Future<Map<String, dynamic>> fetchTvWatchlist(int accountId, String sessionId, {int page = 1}) async {
     final String watchlistAPI =
-        '$urlBase/account/$accountId/watchlist/tv?session_id=$sessionId&language=en-US&page=$page&sort_by=created_at.desc';
+        '$urlBase/account/$accountId/watchlist/tv?session_id=$sessionId&language=en-US&page=$page&sort_by=created_at.desc&$apiKey';
 
     return runAuthAPI(watchlistAPI, sessionId: sessionId);
   }
@@ -142,25 +142,27 @@ class TmdbApiService {
 
 class TmdbAuthService {
   final String? accessToken = dotenv.env['ACCESS_TOKEN'];
+  final String? apiKey = dotenv.env['API_KEY'];
   final String urlBase = 'https://api.themoviedb.org/3';
 
   Future<String> fetchRequestToken() async {
     final cleanToken = accessToken?.replaceAll('access_token=', '');
     final response = await http.get(
-      Uri.parse('$urlBase/authentication/token/new'),
+      Uri.parse('$urlBase/authentication/token/new?$apiKey'),
       headers: {
         'Authorization': 'Bearer $cleanToken',
         'Content-Type': 'application/json',
       },
     );
     final data = json.decode(response.body);
+    print('$data');
     return data['request_token'];
   }
 
   Future<bool> validateLogin(String username, String password, String requestToken) async {
     final cleanToken = accessToken?.replaceAll('access_token=', '');
     final response = await http.post(
-      Uri.parse('$urlBase/authentication/token/validate_with_login'),
+      Uri.parse('$urlBase/authentication/token/validate_with_login?$apiKey'),
       headers: {
         'Authorization': 'Bearer $cleanToken',
         'Content-Type': 'application/json',
@@ -172,13 +174,14 @@ class TmdbAuthService {
       }),
     );
     final data = json.decode(response.body);
+    print('$data');
     return data['success'] == true;
   }
 
   Future<String> createSession(String validatedRequestToken) async {
     final cleanToken = accessToken?.replaceAll('access_token=', '');
     final response = await http.post(
-      Uri.parse('$urlBase/authentication/session/new'),
+      Uri.parse('$urlBase/authentication/session/new?$apiKey'),
       headers: {
         'Authorization': 'Bearer $cleanToken',
         'Content-Type': 'application/json',
@@ -192,7 +195,7 @@ class TmdbAuthService {
   Future<Map<String, dynamic>> fetchAccountDetails(String sessionId) async {
     final cleanToken = accessToken?.replaceAll('access_token=', '');
     final response = await http.get(
-      Uri.parse('$urlBase/account?session_id=$sessionId'),
+      Uri.parse('$urlBase/account?session_id=$sessionId&$apiKey'),
       headers: {
         'Authorization': 'Bearer $cleanToken',
         'Content-Type': 'application/json',
