@@ -22,12 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<ProfileViewModel>(context, listen: false);
-
-      if (SessionManager().accountId != null &&
-          SessionManager().sessionId != null) {
-        viewModel.loadWatchlistMovies();
-        viewModel.loadWatchlistTv();
-      }
+      viewModel.loadWatchlistMovies();
     });
   }
 
@@ -45,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: const Icon(Icons.account_circle, color: Colors.white),
             tooltip: 'Logout',
             onPressed: () {
+              viewModel.clearWatchlists();
               SessionManager().clear();
               Navigator.pushAndRemoveUntil(
                 context,
@@ -76,10 +72,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _getSelectedPage(ProfileViewModel viewModel) {
     if (_selectedIndex == 0) {
-      List<Movie> movies = _watchlistIndex == 0
-          ? viewModel.watchlistMovies
-          : viewModel.watchlistTv;
-
       return Column(
         children: [
           Container(
@@ -93,56 +85,212 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Expanded(
-            child: viewModel.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : movies.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'No items in watchlist.',
-                          style: TextStyle(fontSize: 22, color: Colors.white),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: movies.length,
-                        itemBuilder: (context, index) {
-                          final movie = movies[index];
-                          final imageUrl = movie.posterPath.isNotEmpty
-                              ? 'https://image.tmdb.org/t/p/w185/${movie.posterPath}'
-                              : '';
-
-                          return Card(
-                            color: Colors.white,
-                            margin: const EdgeInsets.all(8),
-                            child: ListTile(
-                              leading: imageUrl.isNotEmpty
-                                  ? Image.network(imageUrl,
-                                      width: 50, fit: BoxFit.cover)
-                                  : const Icon(Icons.movie),
-                              title: Text(movie.title),
-                              subtitle: Text(
-                                  'Released: ${movie.releaseDate} - Vote: ${movie.voteAverage}'),
-                            ),
-                          );
-                        },
-                      ),
+            child: _watchlistIndex == 0
+                ? _buildMovieWatchlist(viewModel)
+                : _buildTvWatchlist(viewModel),
           ),
         ],
       );
-    }
-
-    if (_selectedIndex == 1) {
+    } else if (_selectedIndex == 1) {
       return const Center(
         child: Text(
-          'Favorites (Coming Soon)',
-          style: TextStyle(fontSize: 22, color: Colors.white),
+          'Favorites - Coming Soon',
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      );
+    } else {
+      return const Center(
+        child: Text(
+          'Reviews - Coming Soon',
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      );
+    }
+  }
+
+  Widget _buildMovieWatchlist(ProfileViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.orangeAccent),
+      );
+    }
+
+    if (viewModel.error != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              viewModel.error!,
+              style: const TextStyle(color: Colors.red, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => viewModel.loadWatchlistMovies(),
+              child: const Text('Retry'),
+            ),
+          ],
         ),
       );
     }
 
-    return const Center(
-      child: Text(
-        'Your Reviews (Coming Soon)',
-        style: TextStyle(fontSize: 22, color: Colors.white),
+    if (viewModel.watchlistMovies.isEmpty) {
+      return const Center(
+        child: Text(
+          'No movies in your watchlist',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () => viewModel.loadWatchlistMovies(),
+      child: ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: viewModel.watchlistMovies.length,
+        itemBuilder: (context, index) {
+          final movie = viewModel.watchlistMovies[index];
+          return _buildMovieCard(movie);
+        },
+      ),
+    );
+  }
+
+  Widget _buildTvWatchlist(ProfileViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.orangeAccent),
+      );
+    }
+
+    if (viewModel.error != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              viewModel.error!,
+              style: const TextStyle(color: Colors.red, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => viewModel.loadWatchlistTv(),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (viewModel.tvWatchlist.isEmpty) {
+      return const Center(
+        child: Text(
+          'No TV shows in your watchlist',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () => viewModel.loadWatchlistTv(),
+      child: ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: viewModel.tvWatchlist.length,
+        itemBuilder: (context, index) {
+          final show = viewModel.tvWatchlist[index];
+          return _buildTvCard(show);
+        },
+      ),
+    );
+  }
+
+  Widget _buildMovieCard(Movie movie) {
+    return Card(
+      color: const Color(0xFF4a0004),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: movie.posterPath != null
+            ? Image.network(
+                'https://image.tmdb.org/t/p/w92${movie.posterPath}',
+                width: 50,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.movie, color: Colors.white, size: 50),
+              )
+            : const Icon(Icons.movie, color: Colors.white, size: 50),
+        title: Text(
+          movie.title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(
+          movie.releaseDate.isNotEmpty
+              ? 'Release: ${movie.releaseDate}'
+              : 'Release date unknown',
+          style: const TextStyle(color: Colors.white70),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.star, color: Colors.amber, size: 16),
+            const SizedBox(width: 4),
+            Text(
+              movie.voteAverage.toStringAsFixed(1),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTvCard(Map<String, dynamic> show) {
+    final name = show['name'] ?? 'Unknown Title';
+    final posterPath = show['poster_path'];
+    final firstAirDate = show['first_air_date'] ?? '';
+    final voteAverage = show['vote_average'] ?? 0.0;
+
+    return Card(
+      color: const Color(0xFF4a0004),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: posterPath != null
+            ? Image.network(
+                'https://image.tmdb.org/t/p/w92$posterPath',
+                width: 50,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.tv, color: Colors.white, size: 50),
+              )
+            : const Icon(Icons.tv, color: Colors.white, size: 50),
+        title: Text(
+          name,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(
+          firstAirDate.isNotEmpty
+              ? 'First aired: $firstAirDate'
+              : 'Air date unknown',
+          style: const TextStyle(color: Colors.white70),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.star, color: Colors.amber, size: 16),
+            const SizedBox(width: 4),
+            Text(
+              voteAverage.toStringAsFixed(1),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -173,6 +321,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onPressed: () {
         setState(() {
           _watchlistIndex = index;
+          final viewModel = Provider.of<ProfileViewModel>(context, listen: false);
+          if (index == 0) {
+            viewModel.loadWatchlistMovies();
+          } else {
+            viewModel.loadWatchlistTv();
+          }
         });
       },
       child: Text(
