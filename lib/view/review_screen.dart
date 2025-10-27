@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/data/repositories/tmdb_repository_real.dart';
+import 'package:movie_app/data/repositories/tmdb_repository.dart';
 import '../data/models/movie.dart';
 import '../view_models/review_view_model.dart';
 
@@ -18,7 +18,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = ReviewViewModel(repository: TmdbRepositoryReal());
+    _viewModel = ReviewViewModel(repository: TmdbRepository());
     _viewModel.loadReviews(widget.movie.id);
   }
 
