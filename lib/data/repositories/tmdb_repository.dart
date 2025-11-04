@@ -4,11 +4,12 @@ import 'package:movie_app/data/models/genre.dart';
 import 'package:movie_app/data/models/language.dart';
 import 'package:movie_app/data/models/paged_movies.dart';
 import 'package:movie_app/data/services/tmdb_api_service.dart';
-import 'tmdb_repository.dart';
+import '../models/profile.dart';
 
 class TmdbRepository {
 
   final TmdbApiService _service = TmdbApiService();
+  final SessionManager _profile = SessionManager();
   
   @override
   Future<List<Movie>> getUpcomingMovies() async {
@@ -213,4 +214,76 @@ class TmdbRepository {
     );
     return g.id != 0 ? g.id.toString() : '';
   }
+
+  Future<String> addMovieToFavorites(int movieId, bool addRemove) async {
+    try {
+      final response = await _service.addToFavoritesMoviesList(_profile.sessionId, _profile.accountId, movieId, addRemove);
+
+      return response;
+
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> isOnMovieFavorites(int movieId) async {
+    try {
+
+      final result = await _service.getFavoritesMoviesList(_profile.accountId, _profile.sessionId);
+      final rawFavorites = result['results'];
+      List<Movie> mappedFavorites = rawFavorites.map<Movie>((i) => Movie.fromJson(i)).toList();
+
+      final isFound = mappedFavorites.any((movie) => movie.id == movieId);
+
+      return isFound;
+
+    }catch (e){
+      print('Error checking Favorites: $e');
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Movie>> getRecommendedMovies(int movieId) async{
+    try {
+      final response = await _service.getRecommendationsMoviesList(movieId);
+
+      var recommendedMovies = (response['results'] as List)
+            .map((json) => Movie.fromJson(json))
+            .toList();
+      return recommendedMovies;
+    } catch (e) {
+      print('Error when geting Recommended Movies: $e');
+      throw Exception(e);
+    }
+  }
+
+  Future<String> addMovieToWatclist(int movieId, bool addRemove) async {
+    try {
+      final response = await _service.addToWatchlist(_profile.sessionId, _profile.accountId, movieId, addRemove);
+
+      return response;
+
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> isOnMovieWatchlist(int movieId) async {
+    try {
+
+      final result = await _service.getMovieWatchlist(_profile.accountId, _profile.sessionId);
+      final rawWatchlist = result['results'];
+      List<Movie> mappedWatchlist = rawWatchlist.map<Movie>((i) => Movie.fromJson(i)).toList();
+
+      final isFound = mappedWatchlist.any((movie) => movie.id == movieId);
+
+      return isFound;
+
+    }catch (e){
+      print('Error checking watchlist: $e');
+      throw Exception(e);
+    }
+  }
+
+
 }

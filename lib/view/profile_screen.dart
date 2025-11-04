@@ -23,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<ProfileViewModel>(context, listen: false);
       viewModel.loadWatchlistMovies();
+      viewModel.loadFavoritesMovies();
     });
   }
 
@@ -92,11 +93,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       );
     } else if (_selectedIndex == 1) {
-      return const Center(
-        child: Text(
-          'Favorites - Coming Soon',
-          style: TextStyle(color: Colors.white, fontSize: 18),
-        ),
+      List<Movie> movies = _watchlistIndex == 0
+          ? viewModel.favoritesMovies
+          : viewModel.favoritesTV;
+
+      return Column(
+        children: [
+          Container(
+            color: const Color(0xFF4a0004),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _subNavButton("Movies", 0),
+                _subNavButton("TV Shows", 1),
+              ],
+            ),
+          ),
+          Expanded(
+            child: viewModel.isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : movies.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No items Favorited.',
+                          style: TextStyle(fontSize: 22, color: Colors.white),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: movies.length,
+                        itemBuilder: (context, index) {
+                          final movie = movies[index];
+                          final imageUrl = movie.posterPath.isNotEmpty
+                              ? 'https://image.tmdb.org/t/p/w185/${movie.posterPath}'
+                              : '';
+
+                          return Card(
+                            color: Colors.white,
+                            margin: const EdgeInsets.all(8),
+                            child: ListTile(
+                              leading: imageUrl.isNotEmpty
+                                  ? Image.network(imageUrl,
+                                      width: 50, fit: BoxFit.cover)
+                                  : const Icon(Icons.movie),
+                              title: Text(movie.title),
+                              subtitle: Text(
+                                  'Released: ${movie.releaseDate} - Vote: ${movie.voteAverage}'),
+                            ),
+                          );
+                        },
+                      ),
+          ),
+        ],
       );
     } else {
       return const Center(

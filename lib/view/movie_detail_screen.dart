@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../view/review_screen.dart'; // Assuming this path is correct
 import '../data/models/movie.dart'; // Assuming this path is correct
+import '../data/repositories/tmdb_repository.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final Movie movie;
   final String imgPath = 'https://image.tmdb.org/t/p/w500/';
+    final TmdbRepository _apiRepo = TmdbRepository();
 
   MovieDetailScreen(this.movie, {super.key});
 
@@ -72,6 +74,88 @@ class MovieDetailScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 30),
+
+
+                   //Add to Watchlist
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      try {
+                        // Check if it's on the watchlist
+                        bool isOnWatchlist =
+                            await _apiRepo.isOnMovieWatchlist(movie.id);
+
+                        // Perform the add/remove action
+                        if (isOnWatchlist) {
+                          await _apiRepo.addMovieToWatclist(movie.id, false);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Removed from Watchlist'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else {
+                          await _apiRepo.addMovieToWatclist(movie.id, true);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Added to Watchlist!'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Error: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    },
+                    icon: const Icon(Icons
+                        .bookmark_add), // Fixed icon because we can't track state
+                    label: const Text('Toggle Watchlist'), // Fixed label
+                  ),
+
+                  //Add to Favorites
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      try {
+                        // Check if it's on the watchlist
+                        bool isOnWatchlist =
+                            await _apiRepo.isOnMovieFavorites(movie.id);
+
+                        // Perform the add/remove action
+                        if (isOnWatchlist) {
+                          await _apiRepo.addMovieToFavorites(movie.id, false);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Removed from Favorites'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else {
+                          await _apiRepo.addMovieToFavorites(movie.id, true);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Added to Favorites!'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Error: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    },
+                    icon: const Icon(Icons
+                        .bookmark_add), // Fixed icon because we can't track state
+                    label: const Text('Toggle Favorites'), // Fixed label
+                  ),
+
 
                   // Correctly closed ElevatedButton.icon
                   ElevatedButton.icon(
