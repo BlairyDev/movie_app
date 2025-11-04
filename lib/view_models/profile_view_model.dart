@@ -103,4 +103,60 @@ class ProfileViewModel extends ChangeNotifier {
     _error = null;
     notifyListeners();
   }
+
+  //Favorites
+  List<Movie> _favoritesMovies = [];
+  List<Movie> get favoritesMovies => _favoritesMovies;
+
+  List<Movie> _favoritesTV = [];
+  List<Movie> get favoritesTV => _favoritesTV;
+
+  Future<void> loadFavoritesMovies() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final accountId = SessionManager().accountId;
+      final sessionId = SessionManager().sessionId;
+
+      if (accountId != null && sessionId != null) {
+        final response = await apiService.getFavoritesMoviesList(accountId, sessionId);
+        final results = response['results'] as List<dynamic>;
+        _favoritesMovies = results.map((json) => Movie.fromJson(json)).toList();
+      } else {
+        _favoritesMovies = [];
+      }
+    } catch (e) {
+      _favoritesMovies = [];
+      print('Error fetching movie watchlist: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> loadFavoritesTV() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final accountId = SessionManager().accountId;
+      final sessionId = SessionManager().sessionId;
+
+      if (accountId != null && sessionId != null) {
+        final response = await apiService.getFavoritesTVList(accountId, sessionId);
+
+        _favoritesTV = (response['results'] as List)
+            .map((json) => Movie.fromJson(json))
+            .toList();
+      } else {
+        _favoritesTV = [];
+      }
+    } catch (e) {
+      _favoritesTV = [];
+      print('Error fetching TV watchlist: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

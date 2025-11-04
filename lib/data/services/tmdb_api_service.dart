@@ -138,6 +138,103 @@ class TmdbApiService {
     });
     return runAPI(uri.toString());
   }
+
+    /*
+    Favorites APIS
+  */
+
+  //GET Favorite Movies
+  Future<Map<String, dynamic>> getFavoritesMoviesList(int? accountId, String? sessionId) async {
+    final String favoritesList =
+        '$urlBase/account/$accountId/favorite/movies?$apiKey&session_id=$sessionId&language=en-US&sort_by=created_at.asc';
+
+    return runAPI(favoritesList);
+  }
+
+  //GET Favorite TV Shows 
+  Future<Map<String, dynamic>> getFavoritesTVList(int? accountId, String? sessionId) async {
+    final String favoritesList =
+        '$urlBase/account/$accountId/favorite/tv?$apiKey&session_id=$sessionId&language=en-US&sort_by=created_at.asc';
+
+    return runAPI(favoritesList);
+  }
+
+  //POST Watchlist (calls outside of the API Handler)
+  Future<String> addToFavoritesMoviesList(String? sessionId, int? accountId, int movieId, bool addRemove) async {
+
+    if(sessionId == null|| accountId == null){
+      return 'sessionId or accountId are null'; 
+    }
+    
+
+    final response = await http.post(
+      Uri.parse('$urlBase/account/$accountId/favorite?session_id=$sessionId&$apiKey'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+          "media_type": "movie",
+          "media_id": movieId,
+          "favorite": addRemove
+        }),
+      );
+
+      print('Request failed with status: ${response.statusCode}.');
+      print('Response body: ${response.body}');
+
+    return response.body;
+
+  }
+
+  /*
+    Watchlist APIS
+  */
+  //GET Watchlist
+  Future<Map<String, dynamic>> getMovieWatchlist(int? accountId, String? sessionId) async {
+    final String movieWatchlistAPI =
+        '$urlBase/account/$accountId/watchlist/movies?$apiKey&session_id=$sessionId&language=en-US&sort_by=created_at.asc';
+
+    return runAPI(movieWatchlistAPI);
+  }
+
+  Future<Map<String, dynamic>> getTvWatchlist(int? accountId, String? sessionId) async {
+    final String tvWatchlistAPI =
+        '$urlBase/account/$accountId/watchlist/tv?$apiKey&session_id=$sessionId&language=en-US&sort_by=created_at.asc';
+
+    return runAPI(tvWatchlistAPI);
+  }
+  
+  //POST Watchlist (calls outside of the API Handler)
+  Future<String> addToWatchlist(String? sessionId, int? accountId, int movieId, bool addRemove) async {
+
+    if(sessionId == null|| accountId == null){
+      return 'sessionId or accountId are null'; 
+    }
+    
+
+    final response = await http.post(
+      Uri.parse('$urlBase/account/$accountId/watchlist?session_id=$sessionId&$apiKey'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+          "media_type": "movie",
+          "media_id": movieId,
+          "watchlist": addRemove
+        }),
+      );
+
+    return response.body;
+
+  }
+  
+  /*
+    Recommendations APIS
+  */
+  //Get Recommendations
+  Future<Map<String, dynamic>> getRecommendationsMoviesList(int? movieId) async {
+    final String recommendations =
+        '$urlBase/movie/${movieId}/recommendations?${apiKey}&language=en-US&sort_by=created_at.asc';
+
+    return runAPI(recommendations);
+  }
+
 }
 
 class TmdbAuthService {

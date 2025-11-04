@@ -29,10 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   @override
-  void initState() {
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     Provider.of<HomeViewModel>(context, listen: false).loadUpcomingMovies();
-    super.initState();
-  }
+  });
+}
 
   Widget _buildMovieListItem(Movie movie) {
     String imageUrl = movie.posterPath != null
