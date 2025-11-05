@@ -4,6 +4,7 @@ import '../view_models/profile_view_model.dart';
 import '../data/models/movie.dart';
 import '../data/models/profile.dart';
 import 'login_screen.dart';
+import 'movie_detail_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -258,6 +259,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       color: const Color(0xFF4a0004),
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => MovieDetailScreen(movie),
+            ),
+          );
+        },
         leading: movie.posterPath != null
             ? Image.network(
                 'https://image.tmdb.org/t/p/w92${movie.posterPath}',
