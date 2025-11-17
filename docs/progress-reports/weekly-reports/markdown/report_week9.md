@@ -37,7 +37,7 @@ UI design of the whole app and add testing
 ---
 
 # For this week
-Total # LoC: 376
+Total # LoC: 471
 
 ---
 
