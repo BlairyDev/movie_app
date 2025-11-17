@@ -44,6 +44,7 @@ dependencies:
   build_runner: ^2.9.0
   material_color_utilities: ">=0.11.1 <=0.13.0"
   mockito: ^5.5.1 # Moved from dev_dependencies, so it should be available for the main app if needed
+  mocktail: ^1.0.4
 
 dev_dependencies:
   flutter_test:
