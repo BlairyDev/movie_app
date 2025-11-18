@@ -161,7 +161,7 @@ void initState() {
       );
     }
   }
-  /* Check */
+
 Widget _buildRecommendations(ProfileViewModel viewModel) {
   if (viewModel.isLoading) {
     return const Center(
@@ -219,7 +219,6 @@ Widget _buildRecommendations(ProfileViewModel viewModel) {
     ),
   );
 }
-/* End Check */
   
   Widget _buildMovieWatchlist(ProfileViewModel viewModel) {
     if (viewModel.isLoading) {
@@ -460,3 +459,4 @@ Widget _buildRecommendations(ProfileViewModel viewModel) {
     );
   }
 }
+
