@@ -18,15 +18,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int _watchlistIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
+void initState() {
+  super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final viewModel = Provider.of<ProfileViewModel>(context, listen: false);
-      viewModel.loadWatchlistMovies();
-      viewModel.loadFavoritesMovies();
-    });
-  }
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    final viewModel = Provider.of<ProfileViewModel>(context, listen: false);
+
+    await viewModel.loadWatchlistMovies();
+    await viewModel.loadFavoritesMovies();
+    await viewModel.loadRecommendations();
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 _navButton("Watchlist", 0),
                 _navButton("Favorites", 1),
                 _navButton("Reviews", 2),
+                _navButton("Recommendations", 3),
               ],
             ),
           ),
@@ -146,6 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       );
+    } else if (_selectedIndex == 3) {
+      return _buildRecommendations(viewModel);
     } else {
       return const Center(
         child: Text(
@@ -155,7 +161,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
   }
+  /* Check */
+Widget _buildRecommendations(ProfileViewModel viewModel) {
+  if (viewModel.isLoading) {
+    return const Center(
+      child: CircularProgressIndicator(color: Colors.orangeAccent),
+    );
+  }
 
+  if (viewModel.error != null || viewModel.recommendedMovies.isEmpty) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.movie_filter,
+                color: Colors.white54, size: 64),
+            const SizedBox(height: 16),
+            Text(
+              viewModel.error ?? 'No recommendations yet',
+              style: const TextStyle(
+                  color: Colors.white70, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            if (viewModel.error == null) ...[
+              const SizedBox(height: 8),
+              const Text(
+                'Add more movies to your watchlist or favorites\nto get better recommendations.',
+                style:
+                    TextStyle(color: Colors.white70, fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  return RefreshIndicator(
+    onRefresh: () => viewModel.loadRecommendations(),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: viewModel.recommendedMovies.length,
+            itemBuilder: (context, index) {
+              final movie = viewModel.recommendedMovies[index];
+              return _buildMovieCard(movie);
+            },
+          ),
+        ),
+      ],
+    ),
+  );
+}
+/* End Check */
+  
   Widget _buildMovieWatchlist(ProfileViewModel viewModel) {
     if (viewModel.isLoading) {
       return const Center(
