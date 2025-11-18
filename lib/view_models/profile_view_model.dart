@@ -170,7 +170,6 @@ class ProfileViewModel extends ChangeNotifier {
     _error = null;
     final movieIds = <int>{};
 
-    // Gather IDs
     for (var m in _watchlistMovies) {
       if (m.id != null) movieIds.add(m.id!);
     }
@@ -203,3 +202,4 @@ class ProfileViewModel extends ChangeNotifier {
     _recommendedMovies = list.take(20).toList();
   }
 }
+
