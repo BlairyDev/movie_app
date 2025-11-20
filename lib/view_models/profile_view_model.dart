@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import '../data/models/movie.dart';
 import '../data/models/profile.dart';
 import '../data/services/tmdb_api_service.dart';
+import '../data/repositories/tmdb_repository.dart';
 
 class ProfileViewModel extends ChangeNotifier {
   final TmdbApiService apiService;
+    final TmdbRepository _repository = TmdbRepository(); 
+
 
   ProfileViewModel({required this.apiService});
 
@@ -16,6 +19,9 @@ class ProfileViewModel extends ChangeNotifier {
 
   List<dynamic> _watchlistTv = [];
   List<dynamic> get tvWatchlist => _watchlistTv;
+
+  List<Movie> _recommendedMovies = [];
+  List<Movie> get recommendedMovies => _recommendedMovies;
 
   String? _error;
   String? get error => _error;
@@ -100,6 +106,7 @@ class ProfileViewModel extends ChangeNotifier {
   void clearWatchlists() {
     _watchlistMovies = [];
     _watchlistTv = [];
+    _recommendedMovies = [];
     _error = null;
     notifyListeners();
   }
@@ -159,4 +166,40 @@ class ProfileViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<void> loadRecommendations() async {
+    _error = null;
+    final movieIds = <int>{};
+
+    for (var m in _watchlistMovies) {
+      if (m.id != null) movieIds.add(m.id!);
+    }
+    for (var m in _favoritesMovies) {
+      if (m.id != null) movieIds.add(m.id!);
+    }
+
+    if (movieIds.isEmpty) {
+      _recommendedMovies = [];
+      _error =
+          "No recommendations yet — add movies to your watchlist or favorites.";
+      return;
+    }
+
+    final seen = <int>{};
+    final list = <Movie>[];
+
+    for (var id in movieIds.take(5)) {
+      final recs = await _repository.getRecommendedMovies(id);
+
+      for (var m in recs) {
+        if (m.id != null && !seen.contains(m.id) && !movieIds.contains(m.id)) {
+          seen.add(m.id!);
+          list.add(m);
+        }
+      }
+    }
+
+    list.sort((a, b) => b.voteAverage.compareTo(a.voteAverage));
+    _recommendedMovies = list.take(20).toList();
+  }
 }
+
