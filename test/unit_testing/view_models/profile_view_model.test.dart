@@ -3,15 +3,21 @@ import 'package:mocktail/mocktail.dart';
 import 'package:movie_app/data/models/profile.dart';
 import 'package:movie_app/data/services/tmdb_api_service.dart';
 import 'package:movie_app/view_models/profile_view_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MockTmdbApiService extends Mock implements TmdbApiService {}
+class MockProfileViewModel extends Mock implements ProfileViewModel {}
 
 void main() {
   late MockTmdbApiService mockApiService;
 
-  setUp(() {
+  setUp(() async {
+    // Load dotenv to prevent NotInitializedError
+    await dotenv.load(fileName: ".env");
+
     mockApiService = MockTmdbApiService();
-    // Clear SessionManager before each test
+
+    // Clear session before each test
     SessionManager().clear();
   });
 
@@ -62,7 +68,6 @@ void main() {
 
   test('loadWatchlistMovies sets error if no session', () async {
     // Arrange: no session set
-
     final viewModel = ProfileViewModel(apiService: mockApiService);
 
     // Act
