@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             TextField(
+              key: const Key('usernameField'),
               controller: usernameController,
               decoration: const InputDecoration(
                 labelText: 'Username',
@@ -91,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             TextField(
+              key: const Key('passwordField'),
               controller: passwordController,
               decoration: const InputDecoration(
                 labelText: 'Password',
@@ -103,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 12),
             ElevatedButton(
+              key: const Key('loginButton'),
               onPressed: login,
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith<Color>(

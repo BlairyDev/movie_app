@@ -5,8 +5,13 @@ import '../view_models/review_view_model.dart';
 
 class ReviewScreen extends StatefulWidget {
   final Movie movie;
+  final ReviewViewModel? viewModel; // <-- optional injection for testing
 
-  const ReviewScreen({Key? key, required this.movie}) : super(key: key);
+  const ReviewScreen({
+    Key? key,
+    required this.movie,
+    this.viewModel,
+  }) : super(key: key);
 
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
@@ -18,16 +23,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = ReviewViewModel(repository: TmdbRepository());
+    // Use injected viewModel if provided, otherwise create a real one
+    _viewModel = widget.viewModel ?? ReviewViewModel(repository: TmdbRepository());
     _viewModel.loadReviews(widget.movie.id);
   }
 
   void _loadNextPage() {
     if (_viewModel.hasNextPage && !_viewModel.isLoading) {
-      _viewModel.loadReviewsPage(widget.movie.id, page: _viewModel.currentPage + 1)
-          .catchError((e) => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Failed to load more reviews')),
-              ));
+      _viewModel
+          .loadReviewsPage(widget.movie.id, page: _viewModel.currentPage + 1)
+          .catchError(
+        (e) => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to load more reviews')),
+        ),
+      );
     }
   }
 
@@ -40,10 +49,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
       body: AnimatedBuilder(
         animation: _viewModel,
         builder: (context, _) {
+          // Show loading indicator if loading and no reviews yet
           if (_viewModel.isLoading && _viewModel.reviews.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
 
+          // Show message if no reviews
           if (_viewModel.reviews.isEmpty) {
             return const Center(child: Text('No reviews available.'));
           }
