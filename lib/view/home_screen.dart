@@ -15,26 +15,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isCarouselMode = true; 
+  bool _isCarouselMode = true;
   final String imageBaseUrl = 'https://image.tmdb.org/t/p/w185/';
   final String defaultImage =
       'https://images.freeimages.com/images/large-previews/5eb/movie-clapboard-1184339.jpg';
-  Icon visibleIcon = const Icon(Icons.search, color: Colors.white);
-  Widget searchBar = const Text(
-    'Movies',
-    style: TextStyle(
-      fontFamily: 'Broadway',
-      fontSize: 24,
-    ),
-  );
+
+  late Icon visibleIcon;
+  late Widget searchBar;
+  late TextEditingController searchController;
 
   @override
-void initState() {
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    Provider.of<HomeViewModel>(context, listen: false).loadUpcomingMovies();
-  });
-}
+  void initState() {
+    super.initState();
+    visibleIcon = const Icon(Icons.search, color: Colors.white);
+    searchBar = const Text(
+      'Movies',
+      style: TextStyle(
+        fontFamily: 'Broadway',
+        fontSize: 24,
+      ),
+    );
+    searchController = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<HomeViewModel>(context, listen: false).loadUpcomingMovies();
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   Widget _buildMovieListItem(Movie movie) {
     String imageUrl = movie.posterPath != null
@@ -69,7 +80,7 @@ void initState() {
         ),
         title: Text(movie.title),
         subtitle: Text(
-          'Released: ${movie.releaseDate} - Vote: ${movie.voteAverage.toString()}',
+          'Released: ${movie.releaseDate} - Vote: ${movie.voteAverage}',
         ),
       ),
     );
@@ -128,12 +139,13 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const Key('homeScreen'),
       backgroundColor: const Color(0xFF2d0500),
       appBar: AppBar(
         backgroundColor: const Color(0xFF6d0108),
         title: searchBar,
-        actions: <Widget>[
-          if(!_isCarouselMode || visibleIcon.icon == Icons.cancel)
+        actions: [
+          if (!_isCarouselMode || visibleIcon.icon == Icons.cancel)
             IconButton(
               icon: const Icon(Icons.filter_alt, color: Colors.white),
               tooltip: 'Filter',
@@ -142,85 +154,76 @@ void initState() {
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
-                  builder: (_) => FilterSheet(initialFilters: context.read<HomeViewModel>().currentFilters),
+                  builder: (context) => FilterSheet(
+                      initialFilters: context.read<HomeViewModel>().currentFilters),
                 );
 
                 if (filters != null) {
                   context.read<HomeViewModel>().applyFilters(filters);
                   setState(() {
-                    _isCarouselMode = false; 
+                    _isCarouselMode = false;
                   });
                 }
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.account_circle, color: Colors.white),
-              tooltip: 'Profile',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
-                );
-              },
-            ),
-
-            IconButton(
-              icon: visibleIcon,
-              onPressed: () {
-                setState(() {
-                  if (visibleIcon.icon == Icons.search) {
-                    visibleIcon = const Icon(Icons.cancel, color: Colors.white);
-                    searchBar =TextField(
-                      controller: TextEditingController(text: context.read<HomeViewModel>().currentSearchQuery),
-                      textInputAction: TextInputAction.search,
-                      onSubmitted: (String text) {
-                        context.read<HomeViewModel>().searchMovies(text);
-                        setState(() {
-                          _isCarouselMode = false; 
-                        });
-                      },
-                      style: const TextStyle(color: Colors.white, fontSize: 20.0),
-                      decoration: const InputDecoration(
-                        hintText: 'Search movies...',
-                        hintStyle: TextStyle(color: Colors.white70),
-                        border: InputBorder.none,
-                      ),
-                    );
-                  } else {
-                    visibleIcon = const Icon(Icons.search, color: Colors.white);
-                    searchBar = const Text(
-                      'Movies',
-                      style: TextStyle(
-                        fontFamily: 'Broadway',
-                        fontSize: 24,
-                      ),
-                    );
-                    
-                    final viewModel = context.read<HomeViewModel>();
-
-                    viewModel.clearSearch(); 
-                    viewModel.clearFilters();
-                    viewModel.loadUpcomingMovies(); 
-                    
-                    setState(() {
-                      _isCarouselMode = true;
-                    });
-                  }
-                });
-              },
-            ),
-          ],
+          IconButton(
+            icon: const Icon(Icons.account_circle, color: Colors.white),
+            tooltip: 'Profile',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+              );
+            },
+          ),
+          IconButton(
+            icon: visibleIcon,
+            onPressed: () {
+              setState(() {
+                if (visibleIcon.icon == Icons.search) {
+                  visibleIcon = const Icon(Icons.cancel, color: Colors.white);
+                  searchBar = TextField(
+                    controller: searchController
+                      ..text = context.read<HomeViewModel>().currentSearchQuery,
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (text) {
+                      context.read<HomeViewModel>().searchMovies(text);
+                      setState(() => _isCarouselMode = false);
+                    },
+                    style: const TextStyle(color: Colors.white, fontSize: 20.0),
+                    decoration: const InputDecoration(
+                      hintText: 'Search movies...',
+                      hintStyle: TextStyle(color: Colors.white70),
+                      border: InputBorder.none,
+                    ),
+                  );
+                } else {
+                  visibleIcon = const Icon(Icons.search, color: Colors.white);
+                  searchBar = const Text(
+                    'Movies',
+                    style: TextStyle(
+                      fontFamily: 'Broadway',
+                      fontSize: 24,
+                    ),
+                  );
+                  final viewModel = context.read<HomeViewModel>();
+                  viewModel.clearSearch();
+                  viewModel.clearFilters();
+                  viewModel.loadUpcomingMovies();
+                  _isCarouselMode = true;
+                }
+              });
+            },
+          ),
+        ],
       ),
       body: Consumer<HomeViewModel>(
         builder: (context, viewModel, child) {
-          List<Movie>? movies = viewModel.movies;
-          int movieCount = movies?.length ?? 0;
-
+          final movies = viewModel.movies ?? [];
           if (viewModel.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
-          if (movieCount == 0) {
+          if (movies.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -229,23 +232,21 @@ void initState() {
                     'No movies found.',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
-                  if (viewModel.totalPages > 1)
-                    _buildPaginationControls(viewModel),
+                  if (viewModel.totalPages > 1) _buildPaginationControls(viewModel),
                 ],
               ),
             );
           }
-          
-          bool showCarousel = _isCarouselMode && 
-                              viewModel.currentSearchQuery.isEmpty && 
-                              viewModel.currentFilters.isEmpty;
+
+          bool showCarousel = _isCarouselMode &&
+              viewModel.currentSearchQuery.isEmpty &&
+              viewModel.currentFilters.isEmpty;
 
           if (showCarousel) {
             return CarouselSlider.builder(
-              itemCount: movieCount,
-              itemBuilder: (context, position, realIndex) {
-                final Movie movie = movies![position];
-
+              itemCount: movies.length,
+              itemBuilder: (context, index, realIndex) {
+                final movie = movies[index];
                 String imageUrl = movie.posterPath != null
                     ? imageBaseUrl + movie.posterPath!
                     : defaultImage;
@@ -257,42 +258,27 @@ void initState() {
                     elevation: 4.0,
                     child: InkWell(
                       onTap: () {
-                        MaterialPageRoute route = MaterialPageRoute(
-                          builder: (_) => MovieDetailScreen(movie),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => MovieDetailScreen(movie)),
                         );
-                        Navigator.push(context, route);
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0), 
-                            child: Image.network(
-                              imageUrl,
-                              height: 450.0,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const SizedBox(
-                                  height: 460.0,
-                                  child: Center(
-                                      child: Icon(Icons.movie, size: 50.0)),
-                                );
-                              },
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return SizedBox(
-                                  height: 250.0,
-                                  child: Center(
-                                      child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  )),
-                                );
-                              },
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Center(
+                                      child: Icon(Icons.movie, size: 50.0));
+                                },
+                              ),
                             ),
                           ),
                           Padding(
@@ -301,16 +287,13 @@ void initState() {
                               movie.title,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
+                                  fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              'Released: ${movie.releaseDate}\nVote: ${movie.voteAverage.toString()}',
+                              'Released: ${movie.releaseDate}\nVote: ${movie.voteAverage}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(fontSize: 14),
                             ),
@@ -336,14 +319,13 @@ void initState() {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: movieCount,
-                    itemBuilder: (BuildContext context, int position) {
-                      final Movie movie = movies![position];
-                      return _buildMovieListItem(movie);
+                    itemCount: movies.length,
+                    itemBuilder: (context, index) {
+                      return _buildMovieListItem(movies[index]);
                     },
                   ),
                 ),
-                _buildPaginationControls(viewModel), 
+                _buildPaginationControls(viewModel),
               ],
             );
           }
