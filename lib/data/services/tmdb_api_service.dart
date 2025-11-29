@@ -25,7 +25,7 @@ class TmdbApiService {
       
     } else {
       print('Request failed with status: ${result.statusCode}.');
-      print('Response body: ${result.body}');
+      print('Response body: ${result.body}.');
       print('API URL: $API');
       
       throw Exception("Failed to fetch");
@@ -235,6 +235,106 @@ class TmdbApiService {
     return runAPI(recommendations);
   }
 
+  /*
+    Rating APIS
+  */
+  
+  // GET Rated Movies
+  Future<Map<String, dynamic>> getRatedMovies(int accountId, String sessionId, {int page = 1}) async {
+    final cleanToken = accessToken?.replaceAll('access_token=', '');
+    final tempApiKey = apiKey;
+    final transformedApiKey = tempApiKey!.split('=').last;
+    
+    final String ratedMoviesAPI =
+        '$urlBase/account/$accountId/rated/movies?api_key=$transformedApiKey&session_id=$sessionId&language=en-US&page=$page&sort_by=created_at.desc';
+
+    final response = await http.get(
+      Uri.parse(ratedMoviesAPI),
+      headers: {
+        'Authorization': 'Bearer $cleanToken',
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('Get Rated Movies Status: ${response.statusCode}');
+    print('Get Rated Movies Body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+  } else {
+    throw Exception("Failed to get rated movies: ${response.body}");
+  }
+}
+
+  // POST Rate Movie
+  Future<Map<String, dynamic>> rateMovie({
+    required int movieId,
+    required double rating,
+    required String sessionId,
+  }) async {
+    final cleanToken = accessToken?.replaceAll('access_token=', '');
+    final tempApiKey = apiKey;
+    final transformedApiKey = tempApiKey!.split('=').last;
+
+    final url = '$urlBase/movie/$movieId/rating?api_key=$transformedApiKey&session_id=$sessionId';
+    final uri = Uri.parse(url);
+
+    final response = await http.post(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $cleanToken',
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json',
+      },
+      body: jsonEncode({
+        'value': rating, // must be 0.5 to 10.0
+      }),
+    );
+
+    print("Rate Movie Status: ${response.statusCode}");
+    print("Rate Movie Body: ${response.body}");
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to rate movie: ${response.body}");
+    }
+  }
+
+  // DELETE Movie Rating
+  Future<Map<String, dynamic>> deleteMovieRating({
+    required int movieId,
+    required String sessionId,
+  }) async {
+    final cleanToken = accessToken?.replaceAll('access_token=', '');
+    final tempApiKey = apiKey;
+    final transformedApiKey = tempApiKey!.split('=').last;
+
+    final url = '$urlBase/movie/$movieId/rating?api_key=$transformedApiKey&session_id=$sessionId';
+    final uri = Uri.parse(url);
+
+    final response = await http.delete(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $cleanToken',
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json',
+      },
+    );
+
+    print("Delete Movie Rating Status: ${response.statusCode}");
+    print("Delete Movie Rating Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to delete movie rating: ${response.body}");
+    }
+  }
+
+  
+
 }
 
 class TmdbAuthService {
@@ -300,4 +400,5 @@ class TmdbAuthService {
     );
     return json.decode(response.body);
   }
+
 }

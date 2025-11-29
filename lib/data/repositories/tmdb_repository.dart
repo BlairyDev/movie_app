@@ -285,5 +285,66 @@ class TmdbRepository {
     }
   }
 
+  // Add these methods to your TmdbRepository class
+
+Future<String> addMovieRating(int movieId, double rating) async {
+  try {
+    final response = await _service.rateMovie(
+      movieId: movieId,
+      rating: rating,
+      sessionId: _profile.sessionId!,
+    );
+    return response.toString();
+  } catch (e) {
+    throw Exception(e);
+  }
+}
+
+Future<String> removeMovieRating(int movieId) async {
+  try {
+    final response = await _service.deleteMovieRating(
+      movieId: movieId,
+      sessionId: _profile.sessionId!,
+    );
+    return response.toString();
+  } catch (e) {
+    throw Exception(e);
+  }
+}
+
+// Replace the getUserMovieRating method in TmdbRepository
+
+Future<double?> getUserMovieRating(int movieId) async {
+  try {
+    if (_profile.accountId == null || _profile.sessionId == null) {
+      print('Account ID or Session ID is null');
+      return null;
+    }
+    
+    final result = await _service.getRatedMovies(
+      _profile.accountId!,
+      _profile.sessionId!,
+    );
+    
+    final rawRatings = result['results'] as List;
+    
+    // Find the specific movie in rated list
+    final ratedMovie = rawRatings.firstWhere(
+      (movie) => movie['id'] == movieId,
+      orElse: () => null,
+    );
+    
+    if (ratedMovie != null && ratedMovie['rating'] != null) {
+      return (ratedMovie['rating'] as num).toDouble();
+    }
+    
+    return null;
+  } catch (e) {
+    print('Error checking user rating: $e');
+    return null;
+  }
+}
+
+
 
 }
