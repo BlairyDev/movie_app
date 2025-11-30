@@ -49,13 +49,14 @@ paginate: true
 ### Preston
 - **Login & Authentication**
   - Implemented login with TMDB API
-  - Demo: [YouTube Link](https://youtu.be/demo1)
+  - Demo: Logout [YouTube Link](https://youtu.be/v2N_XbmTPaI)
+  - Logout [YouTube Link](https://youtu.be/v2N_XbmTPaI)
 
 - - **Profile Screen**
   - User is able to log out and
   - Profiles must display a watchlist and favorites
   - Design Profile Page UI
-  - Demo: [YouTube Link](https://youtu.be/demo1)
+  - Demo: [YouTube Link](https://youtu.be/B8AwyqY4iaE)
 
 ---
 
@@ -63,7 +64,7 @@ paginate: true
 - **Detail Screen**
   - Detail pages must display title, release date, synopsis.
   - Design the detail page UI
-  - Demo: [GitHub Link](https://github.com/demo2)
+  - Demo: [GitHub Link](https://www.youtube.com/watch?v=jG0TGgqH1rc)
 - **Login Screen**
   - Design the login page UI
   - Demo: [GitHub Link](https://github.com/demo2)
@@ -97,9 +98,9 @@ paginate: true
 # Tests & Documentation
 
 **Tests**  
-- Acceptance:  
-- Integration:   
-- Regression: 
+- Acceptance:  22/22
+- Integration: 
+- Regression: 3/3
 
 **Documentation**  
 - API docs: [Link](https://github.com/movie-tracker-app/wiki/API)  
