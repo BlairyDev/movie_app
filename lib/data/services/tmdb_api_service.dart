@@ -17,16 +17,10 @@ class TmdbApiService {
     if (result.statusCode == HttpStatus.ok) {
       final jsonResponse = json.decode(result.body);
 
-      print('Request succceded with status: ${result.statusCode}.');
-      print('Response body: ${result.body}');
-      print('API URL: $API');
       
       return jsonResponse;
       
     } else {
-      print('Request failed with status: ${result.statusCode}.');
-      print('Response body: ${result.body}.');
-      print('API URL: $API');
       
       throw Exception("Failed to fetch");
     }
@@ -45,13 +39,8 @@ class TmdbApiService {
     
     if (result.statusCode == HttpStatus.ok) {
       final jsonResponse = json.decode(result.body);
-      print('Auth request successful with status: ${result.statusCode}.');
-      print('API URL: $url');
       return jsonResponse;
     } else {
-      print('Auth request failed with status: ${result.statusCode}.');
-      print('Response body: ${result.body}');
-      print('API URL: $url');
       throw Exception("Failed to fetch authenticated data");
     }
   }
@@ -177,9 +166,6 @@ class TmdbApiService {
         }),
       );
 
-      print('Request failed with status: ${response.statusCode}.');
-      print('Response body: ${response.body}');
-
     return response.body;
 
   }
@@ -257,9 +243,6 @@ class TmdbApiService {
       },
     );
 
-    print('Get Rated Movies Status: ${response.statusCode}');
-    print('Get Rated Movies Body: ${response.body}');
-
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
   } else {
@@ -292,8 +275,6 @@ class TmdbApiService {
       }),
     );
 
-    print("Rate Movie Status: ${response.statusCode}");
-    print("Rate Movie Body: ${response.body}");
 
     if (response.statusCode == 201 || response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -323,8 +304,6 @@ class TmdbApiService {
       },
     );
 
-    print("Delete Movie Rating Status: ${response.statusCode}");
-    print("Delete Movie Rating Body: ${response.body}");
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -352,7 +331,6 @@ class TmdbAuthService {
       },
     );
     final data = json.decode(response.body);
-    print('$data');
     return data['request_token'];
   }
 
@@ -371,7 +349,6 @@ class TmdbAuthService {
       }),
     );
     final data = json.decode(response.body);
-    print('$data');
     return data['success'] == true;
   }
 
