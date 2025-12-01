@@ -34,12 +34,12 @@ paginate: true
 
 # Team Contributions
 
-| Member | Features Promised | Features Finished | Lines of Code (LoC) |
+| Member | Features Promised | Requirements Finished | Lines of Code (LoC) |
 |--------|-----------------|-----------------|-------------------|
-| Preston   | 2               | 6               | 1023             |
-| Cambden  | 3               | 3               | 408               |
-| Aj  | 2               |     7           | 1397               |
-| Parker   | 2               | 3z               | 368               |
+| Preston   | 2/2               | 6/6               | 1023             |
+| Cambden  | 4/4               | 5/5               | 868               |
+| Aj  | 2/2               |     7/7           | 1397               |
+| Parker   | 2               | 3/3               | 368               |
 
 
 ---
@@ -49,90 +49,98 @@ paginate: true
 ### Preston
 - **Login & Authentication**
   - Implemented login with TMDB API
-  - Demo: Logout [YouTube Link](https://youtu.be/v2N_XbmTPaI)
-  - Logout [YouTube Link](https://youtu.be/v2N_XbmTPaI)
+  - Demo: Logout [Link](https://drive.google.com/file/d/1X4spMOsyz65w1vkPurewSu6Yef_WbF4g/view?usp=drive_link)
+  - Logout [Link](https://drive.google.com/file/d/1oJGlG5RMDhfGWxXBiEAk-d15YsVxycob/view?usp=drive_link)
 
 - - **Profile Screen**
   - User is able to log out and
   - Profiles must display a watchlist and favorites
   - Design Profile Page UI
-  - Demo: [YouTube Link](https://youtu.be/B8AwyqY4iaE)
+  - Demo: [Link](https://drive.google.com/file/d/1OOM6nE3KkyQoWE5mTESIXig7TxO81XwD/view?usp=drive_link)
 
 ---
 
 ### Cambden
 - **Detail Screen**
-  - Detail pages must display title, release date, synopsis.
+  - Detail pages must display title, synopsis.
   - Design the detail page UI
-  - Demo: [GitHub Link](https://www.youtube.com/watch?v=jG0TGgqH1rc)
+  - Demo: [Link](https://drive.google.com/file/d/1XTCkHmMZS_oygc-_ROarfU96cpi6sKZH/view?usp=sharing)
 - **Login Screen**
   - Design the login page UI
-  - Demo: [GitHub Link](https://github.com/demo2)
+  - Demo: [Link](https://drive.google.com/file/d/1w8KsoxrTvEkOPBzzgRra3eOd52lzBp0a/view?usp=sharing)
 - **Home Screen**
   - Design the login page UI
-  - Demo: [GitHub Link](https://github.com/demo2)
+  - Demo: [Link](https://drive.google.com/file/d/12mC2fE-nwsxJVyzWHiiBbEjJj_D0Nx1W/view?usp=drive_link)
+- **Ratings**
+  - Users must be able to rate movies on a 1–10 scale and  must be able to add and remove
+  - Demo: [Link](https://drive.google.com/file/d/1leLnJg0P28asHBJ1bfey8C1kdPtFKMB6/view?usp=drive_link)
+
 
 ---
 
 ### Aj
 - **Filter**
   - Users able to filter movies 
-  - Demo: [YouTube Link](https://youtu.be/demo3)
+  - Demo: [Link](https://drive.google.com/file/d/1LP5z_-smo6mb9HOIQXwXKiKWikVZt6xc/view?usp=drive_link)
 - **Reviews**
   - Display the reviews of a movie
-  - Demo: [YouTube Link](https://youtu.be/demo3)
+  - Demo: [Link](https://drive.google.com/file/d/1-bpaQ8G6Ozwzg_MeBejXLWjLRAU0e_jE/view?usp=sharing)
 
 ---
 
 ### Parker
 - **Watchlist and Favorites**
-  - Show list of watchlist
+  - Show list of watchlist and Favorites
   - Able to add movies in watchlist and favorites
-  - Demo: [YouTube Link](https://youtu.be/demo3)
+  - Demo: [Link](https://drive.google.com/file/d/1MBNk8phGGE2MQaCVRX1o4X6TyueCo-gM/view?usp=drive_link)
 - **Recommendation**
   - Show list of recommendation
-  - Demo: [YouTube Link](https://youtu.be/demo3)
+  - Demo: [Link](https://drive.google.com/file/d/1MBNk8phGGE2MQaCVRX1o4X6TyueCo-gM/view?usp=drive_link)
 
 ---
 
 # Tests & Documentation
 
 **Tests**  
-- Acceptance:  22/22
-- Integration: 
-- Regression: 3/3
+- Acceptance:  26
+- Integration: 21/21
+- Regression: 3
+- Unit Testing: 16/16
+- Widget Testing: 20/20
 
 **Documentation**  
-- API docs: [Link](https://github.com/movie-tracker-app/wiki/API)  
-- User manual: [PDF Link](https://github.com/movie-tracker-app/wiki/UserManual.pdf)  
+- API docs: [Link](https://github.com/BlairyDev/movie_app)  
+- User manual: [Link](https://blairydev.github.io/movie_app.io/user-manual/user-manual/)
+- Test docs: [Link](https://blairydev.github.io/movie_app.io/testing-docs/testing-docs/)  
 
 ---
 
 # Reflection on Problem-Solving
 
 **What went wrong:**  
-- API rate limits caused delays  
-- UI components required multiple iterations  
-- Lessons learned & things we would do differently  
+- UI components needs rework
+- Some requirements where unclear at the start which led to some minor delays.
+- Testing took longer than expected
 
 **What went well:**  
-- Daily stand-ups improved collaboration  
-- Unit & integration tests caught bugs early  
-- Effective problem-solving techniques for teamwork  
+- All promised features & requirements completed
+- Effective Solving, when there is a bug the team solves it immediately
+- Teamwork - team worked communicated effectively when issues arise we solve it quickly.
 
 ---
 
 # Summary & Closing
 
-- All requirements fulfilled ✅  
-- Product demoed and tested thoroughly  
+- All requirements fulfilled 
+- Product demoed and tested
 - Documentation and code shared  
 - Teamwork & problem-solving reflected  
 
 **Thank you to our stakeholders and mentors!**  
 **Links for access:**  
-- [Code & Tests](https://github.com/movie-tracker-app)  
-- [Demo Video](https://youtu.be/demo1)  
+- [Website](https://blairydev.github.io/movie_app.io/)
+- [Code](https://github.com/BlairyDev/movie_app/tree/main/lib)
+- [Tests](https://github.com/BlairyDev/movie_app/tree/main/test)   
 - Documentation & artifacts available online
 
 
