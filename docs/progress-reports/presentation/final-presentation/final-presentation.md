@@ -16,9 +16,11 @@ paginate: true
 # Project Overview
 
 **Problem Domain:**  
-- Users struggle to track multiple shows & episodes  
+- Users struggle to track multiple shows 
 - Manual tracking is time-consuming and error-prone
 - To many steps just to go to TMDB in the browsers  
+
+---
 
 **Our Solution:**  
 - Movie Tracker App
@@ -27,7 +29,6 @@ paginate: true
 ---
 
 # How the App Works (API Overview)
-# App Architecture
 ![App Architecture](../../../engineers/images/software-architecture.png)
 
 ---
@@ -71,6 +72,7 @@ paginate: true
 - **Home Screen**
   - Design the login page UI
   - Demo: [Link](https://drive.google.com/file/d/12mC2fE-nwsxJVyzWHiiBbEjJj_D0Nx1W/view?usp=drive_link)
+---
 - **Ratings**
   - Users must be able to rate movies on a 1–10 scale and  must be able to add and remove
   - Demo: [Link](https://drive.google.com/file/d/1leLnJg0P28asHBJ1bfey8C1kdPtFKMB6/view?usp=drive_link)
@@ -129,12 +131,6 @@ paginate: true
 
 ---
 
-# Summary & Closing
-
-- All requirements fulfilled 
-- Product demoed and tested
-- Documentation and code shared  
-- Teamwork & problem-solving reflected  
 
 **Thank you to our stakeholders and mentors!**  
 **Links for access:**  
